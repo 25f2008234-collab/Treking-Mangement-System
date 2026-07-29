@@ -50,30 +50,74 @@ class Userprofile(db.Model):
     address = db.Column(db.Text, nullable=True)
     
 
-    @app.route('/')
-    def home():
-        return render_template('index.html')
+@app.route('/')
+def home():
+    return render_template('index.html')
     
-    @app.route('/login')
-    def login():
-        return render_template('login.html')
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user_ = User.query.filter_by(email=email).first()
+
+        if user_ and user_.password == password:
+            if user_.role == "user":
+                return "User dashboard"
+            elif user_.role == "admin":
+                return "Admin dashboard"
+            elif user_.role == "staff":
+                return "Staff dashboard"
+
+        return "Invalid email or password!"
+
+    return render_template('login.html')
     
-    @app.route('/signup',methods=['GET', 'POST'])
-    def signup():
-        if request.method == 'POST':
-            username = request.form['username']
-            email = request.form['email']
-            password = request.form['password']
-            role = request.form['role']
+@app.route('/signup',methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        role = request.form['role']
+
+        ext_user = User.query.filter_by(email=email).first()
+        if ext_user :
+            return "you are already register. Please Login" 
+        new_user = User(username=username, email=email, password=password, role=role)
+        db.session.add(new_user)
+        db.session.commit()
             
-            new_user = User(username=username, email=email, password=password, role=role)
-            db.session.add(new_user)
-            db.session.commit()
-            
-            return redirect('/login')
-        return render_template('signup.html')
+        return redirect('/login')
+    return render_template('signup.html')   
     
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect('/login')
+
+@app.route("/admin")
+def admin_dashboard():
+    return render_template("admin_dashboard.html")
+
+@app.route("/user")
+def user_dashboard():
+    return render_template("user_dashboard.html")
+
+@app.route("/staff")
+def staff_dashboard():
+    return render_template("staff_dashboard.html")
+
+
+
 
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
+        exist_admin = User.query.filter_by(username="admin").first()
+        if not exist_admin:
+            admin_new = User(username = "admin", email = "admin@gmail.com", password= "admin123 ", role="admin")
+            db.session.add(admin_new)
+            db.session.commit()
+    app.run(debug=True) 
