@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Assign Trek</h1>
+    <form method="POST">
+        <label>Select Staff</label>
+        <br>
+        <select name="staff_id">
+
+            {% for staff in staff_members %}
+
+            <option value="{{ staff.id }}">
+                {{ staff.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+        <br><br>
+        <label>Select Trek</label>
+        <br>
+        <select name="trek_id">
+
+            {% for trek in treks %}
+
+            <option value="{{ trek.id }}">
+                {{ trek.name }}
+            </option>
+
+            {% endfor %}
+
+        </select>
+        <br><br>
+        <input type="submit" value="Assign Staff">
+    </form>
+    <br>
+    <a href="/admin_dashboard">Back to Dashboard</a>
+</body>
+</html>

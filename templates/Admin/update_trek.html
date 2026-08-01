@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Trek</title>
+</head>
+<body>
+    <h1>Update Trek</h1>
+    <form method="POST">
+        <label>Trek Name</label><br>
+        <input type="text" name="name" value="{{ trek.name }}">
+        <br><br>
+
+        <label>Location</label><br>
+        <input type="text" name="location" value="{{ trek.location }}">
+        <br><br>
+
+        <label>Description</label><br>
+        <textarea name="description">{{ trek.description }}</textarea>
+        <br><br>
+
+        <label>Duration (Days)</label><br>
+        <input type="number" name="duration" value="{{ trek.duration }}">
+        <br><br>
+
+        <input type="submit" value="Update Trek">
+
+    </form>
+
+    <br>
+
+    <a href="/treks">Back</a>
+
+
+    </form>
+    {{trek.name}}
+</body>
+</html>

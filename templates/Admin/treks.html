@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Treks</title>
+</head>
+<body>
+    <h1> Manage Treks </h1>
+    <a href="/create_trek">Add New Trek</a>
+    <br><br>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Assigned Staff</th>
+            <th>Actions</th>
+        </tr>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.id }}</td>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.description }}</td>
+            <td>{{ trek.duration }} Days</td>
+            <td>
+                {% if trek.staff %}
+                    {{ trek.staff.name }}
+                {% else %}
+                    Not Assigned
+                {% endif %}
+            </td>         
+            <td>
+
+                <a href="/update_trek/{{ trek.id }}">Edit</a>
+
+                <a href="/remove_trek/{{ trek.id }}">Delete</a>
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+    <br><br>
+    <a href="/admin_dashboard">Back to Dashboard</a>
+ 
+</body>
+</html>
