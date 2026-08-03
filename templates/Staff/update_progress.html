@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Progress</title>
+</head>
+<body>
+    <h1>Update Trek Progress</h1>
+    <form method="POST">
+        <p><b>{{ trek.name }}</b></p>
+        <label>Progress</label>
+        <select name="progress">
+            <option value="Not Started">Not Started</option>
+            <option value="Started">Started</option>
+            <option value="Ongoing">Ongoing</option>
+            <option value="Completed">Completed</option>
+        </select>
+        <br><br>
+        <button type="submit">Update</button>
+    </form>
+    <br>
+    <a href="/my_treks">Back</a>
+
+</body>
+</html>

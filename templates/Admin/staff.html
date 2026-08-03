@@ -9,27 +9,17 @@
     <h1>Staff Management</h1>
     <h2>Add Staff</h2>
     <form method="POST">
-
         <label>Name</label><br>
         <input type="text" name="name" required>
-
         <br><br>
-
         <label>Role</label><br>
         <input type="text" name="role" required>
-
         <br><br>
-
         <input type="submit" value="Add Staff">
-
     </form>
-
     <hr>
-
     <h2>All Staff</h2>
-
     <table border="1">
-
         <tr>
             <th>ID</th>
             <th>Name</th>
@@ -37,9 +27,7 @@
             <th>Status</th>
             <th>Action</th>
         </tr>
-
         {% for staff in staff_members %}
-
         <tr>
             <td>{{ staff.id }}</td>
             <td>{{ staff.name }}</td>
@@ -58,6 +46,5 @@
     </table>
     <br>
     <a href="/admin_dashboard">Back to Dashboard</a>
-
 </body>
 </html>

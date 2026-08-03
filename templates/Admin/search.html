@@ -7,34 +7,22 @@
 </head>
 <body>
     <h1>Search</h1>
-
     <form method="POST">
-
         <label>Search Type</label>
-
         <select name="type">
             <option value="trek">Treks</option>
             <option value="staff">Staff</option>
             <option value="user">Users</option>
         </select>
-
         <br><br>
-
         <label>Enter Name</label><br>
         <input type="text" name="keyword">
-
         <br><br>
-
         <input type="submit" value="Search">
-
     </form>
-
     {% if results %}
-
         {% for item in results %}
-
             <p>
-
                 {% if search_type=="trek" %}
                     {{ item.name }} - {{ item.location }}
                 {% elif search_type=="staff" %}
@@ -42,13 +30,9 @@
                 {% else %}
                     {{ item.username }} - {{ item.email }}
                 {% endif %}
-
             </p>
-
         {% endfor %}
-
     {% endif %}
-
     <br>
     <a href="/admin_dashboard">Back</a>
 </body>

@@ -15,40 +15,22 @@
         <th>Status</th>
         <th>Action</th>
     </tr>
-
     {% for user in users %}
-
     <tr>
-
         <td>{{ user.id }}</td>
         <td>{{ user.username }}</td>
         <td>{{ user.email }}</td>
-
-    <td>{{ user.status }}</td>
-
-    <td>
-
+        <td>{{ user.status }}</td>
+        <td>
         {% if user.status == "Active" %}
-
         <a href="/block_user/{{ user.id }}">Block</a>
-
         {% else %}
-
         <a href="/unblock_user/{{ user.id }}">Unblock</a>
-
         {% endif %}
-
-    </td>
-
-</tr>
-
+        </td>
+    </tr>
     {% endfor %}
-
-</table>
-
-<br>
-
-<a href="/admin_dashboard">Back</a>
-
+    <br>
+    <a href="/admin_dashboard">Back</a>
 </body>
 </html>

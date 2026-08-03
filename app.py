@@ -9,7 +9,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -25,6 +24,9 @@ class Trekking_table(db.Model):
     description = db.Column(db.Text, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'))
+    available_slots = db.Column(db.Integer, default=20)
+    status = db.Column(db.String(20), default="Open")
+    progress = db.Column(db.String(20), default="Not Started")
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -111,6 +113,10 @@ def signup():
         new_user = User(username=username, email=email, password=password, role=role)
         db.session.add(new_user)
         db.session.commit()
+        if role == "staff":
+            new_staff = Staff(name=username, role="staff")
+            db.session.add(new_staff)
+            db.session.commit()
             
         return redirect('/login')
     return render_template('signup.html')   
@@ -129,9 +135,29 @@ def user_dashboard():
 
 @app.route("/staff_dashboard")
 def staff_dashboard():
+
     if "user_id" not in session:
         return redirect("/login")
-    return render_template("staff_dashboard.html")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    if not staff:
+        return "Staff record not found."
+
+    assigned_treks = Trekking_table.query.filter_by(staff_id=staff.id).all()
+
+    total_treks = len(assigned_treks)
+
+    total_participants = 0
+
+    for trek in assigned_treks:
+        count = Booking.query.filter_by(trekking_id=trek.id).count()
+        total_participants += count
+
+    return render_template("Staff/staff_dashboard.html",staff=staff,total_treks=total_treks,total_participants=total_participants)
 
 
 @app.route("/admin_dashboard")
@@ -363,6 +389,151 @@ def search():
             ).all()
 
     return render_template("Admin/search.html",results=results,search_type=search_type)
+
+# Staff
+
+@app.route("/edit_staff_profile/<int:staff_id>", methods=["GET", "POST"])
+def edit_staff_profile(staff_id):
+    staff = Staff.query.get_or_404(staff_id)
+    if request.method == "POST":
+        staff.name = request.form["name"]
+        staff.role = request.form["role"]
+        db.session.commit()
+        return redirect("/staff")
+    return render_template("Staff/edit_staff_profile.html", staff=staff)
+
+@app.route("/participants")
+def participants():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    treks = Trekking_table.query.filter_by(staff_id=staff.id).all()
+
+    participant_list = []
+
+    for trek in treks:
+
+        bookings = Booking.query.filter_by(trekking_id=trek.id).all()
+
+        for booking in bookings:
+
+            user = User.query.get(booking.user_id)
+
+            participant_list.append({
+                "trek_name": trek.name,
+                "username": user.username,
+                "email": user.email,
+                "booking_date": booking.booking_date
+            })
+
+    return render_template("Staff/participants.html",participant_list=participant_list)
+
+@app.route("/update_progress/<int:trek_id>", methods=["GET", "POST"])
+def update_progress(trek_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    trek = Trekking_table.query.get_or_404(trek_id)
+
+    if trek.staff_id != staff.id:
+        return "You cannot update this trek."
+
+    if request.method == "POST":
+
+        trek.progress = request.form["progress"]
+
+        db.session.commit()
+
+        return redirect("/my_treks")
+
+    return render_template("Staff/update_progress.html",trek=trek)
+
+@app.route("/update_status/<int:trek_id>", methods=["GET","POST"])
+def update_status(trek_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    trek = Trekking_table.query.get_or_404(trek_id)
+
+    if trek.staff_id != staff.id:
+        return "You cannot update this trek."
+
+    if request.method == "POST":
+
+        trek.status = request.form["status"]
+
+        db.session.commit()
+
+        return redirect("/my_treks")
+
+    return render_template("Staff/update_status.html",trek=trek)
+
+
+@app.route("/trek")
+def trek():
+    return render_template("Staff/trek.html")
+
+@app.route("/my_treks")
+def my_treks():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    if not staff:
+        return "Staff record not found."
+
+    treks = Trekking_table.query.filter_by(staff_id=staff.id).all()
+
+    return render_template("Staff/my_trek.html",treks=treks)
+
+@app.route("/update_slots/<int:trek_id>", methods=["GET", "POST"])
+def update_slots(trek_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    trek = Trekking_table.query.get_or_404(trek_id)
+
+    if trek.staff_id != staff.id:
+        return "You cannot update this trek."
+
+    if request.method == "POST":
+
+        trek.available_slots = request.form["slots"]
+
+        db.session.commit()
+
+        return redirect("/my_treks")
+
+    return render_template("Staff/update_slots.html",trek=trek)
 
 
 

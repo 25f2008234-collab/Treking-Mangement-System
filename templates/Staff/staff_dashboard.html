@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+</head>
+<body>
+    <h1>Staff Dashboard</h1>
+    <h3>Welcome {{ staff.name }}</h3>
+    <hr>
+    <h3>Total Assigned Treks : {{ total_treks }}</h3>
+    <h3>Total Participants : {{ total_participants }}</h3>
+    <hr>
+    <a href="/my_treks">My Treks</a>
+    <br><br>
+    <a href="/participants">Participants</a>
+    <br><br>
+    <a href="/edit_staff_profile/{{ staff.id }}">Edit Profile</a>
+    <br><br>
+    <a href="/logout">Logout</a>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Participants</title>
+  </head>
+  <body>
+    <h1>Participants List</h1>
+    <a href="/staff_dashboard">Back to Dashboard</a>
+    <br /><br />
+    {% if participant_list %}
+    <table border="1">
+      <tr>
+        <th>Trek Name</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>Booking Date</th>
+      </tr>
+      {% for p in participant_list %}
+      <tr>
+        <td>{{ p.trek_name }}</td>
+        <td>{{ p.username }}</td>
+        <td>{{ p.email }}</td>
+        <td>{{ p.booking_date }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <h3>No Participants Found</h3>
+    {% endif %}
+    <br />
+    <a href="/logout">Logout</a>
+  </body>
+</html>
