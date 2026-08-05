@@ -1,39 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+
+    <title>Search - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>Search</h1>
-    <form method="POST">
-        <label>Search Type</label>
-        <select name="type">
-            <option value="trek">Treks</option>
-            <option value="staff">Staff</option>
-            <option value="user">Users</option>
-        </select>
-        <br><br>
-        <label>Enter Name</label><br>
-        <input type="text" name="keyword">
-        <br><br>
-        <input type="submit" value="Search">
-    </form>
-    {% if results %}
-        {% for item in results %}
-            <p>
+
+    <header>
+
+        <h1>Saarthi</h1>
+
+        <p>Your Trusted Trek Companion</p>
+
+    </header>
+
+    <nav>
+
+        <a href="/admin_dashboard">Dashboard</a>
+
+        <a href="/treks">Treks</a>
+
+        <a href="/staff">Staff</a>
+
+        <a href="/users">Users</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Search Records</h2>
+
+            <p>Search treks, staff members or users.</p>
+
+            <form method="POST">
+
+                <label>Search Category</label>
+
+                <select name="type" required>
+
+                    <option value="trek">Treks</option>
+
+                    <option value="staff">Staff</option>
+
+                    <option value="user">Users</option>
+
+                </select>
+
+                <label>Keyword</label>
+
+                <input
+                    type="text"
+                    name="keyword"
+                    placeholder="Enter name..."
+                    required>
+
+                <input type="submit" value="Search">
+
+            </form>
+
+        </div>
+
+        {% if results %}
+
+        <div class="card">
+
+            <h2>Search Results</h2>
+
+            <table>
+
                 {% if search_type=="trek" %}
-                    {{ item.name }} - {{ item.location }}
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Location</th>
+
+                </tr>
+
+                {% for item in results %}
+
+                <tr>
+
+                    <td>{{ item.name }}</td>
+
+                    <td>{{ item.location }}</td>
+
+                </tr>
+
+                {% endfor %}
+
                 {% elif search_type=="staff" %}
-                    {{ item.name }} - {{ item.role }}
+
+                <tr>
+
+                    <th>Name</th>
+
+                    <th>Role</th>
+
+                </tr>
+
+                {% for item in results %}
+
+                <tr>
+
+                    <td>{{ item.name }}</td>
+
+                    <td>{{ item.role }}</td>
+
+                </tr>
+
+                {% endfor %}
+
                 {% else %}
-                    {{ item.username }} - {{ item.email }}
+
+                <tr>
+
+                    <th>Username</th>
+
+                    <th>Email</th>
+
+                </tr>
+
+                {% for item in results %}
+
+                <tr>
+
+                    <td>{{ item.username }}</td>
+
+                    <td>{{ item.email }}</td>
+
+                </tr>
+
+                {% endfor %}
+
                 {% endif %}
-            </p>
-        {% endfor %}
-    {% endif %}
-    <br>
-    <a href="/admin_dashboard">Back</a>
+
+            </table>
+
+        </div>
+
+        {% endif %}
+
+        <a href="/admin_dashboard" class="btn">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

@@ -1,23 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Sign Up - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <form action="/signup" method="post">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <select name="role" placeholder="Select Role" required>
-            <option value="user">User</option>
-            <option value="staff">Staff</option>
-        </select><br><br>
-        <button type="submit">Sign Up</button>
-        </form>
+
+    <header>
+
+        <h1>Saarthi</h1>
+
+        <p>Your Trusted Trek Companion</p>
+
+    </header>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="/login">Login</a>
+
+        <a href="/signup">Sign Up</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2 class="text-center">Create Your Account</h2>
+
+            <form action="/signup" method="POST">
+
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Enter your username"
+                    required>
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required>
+
+                <label>Select Role</label>
+
+                <select name="role" required>
+
+                    <option value="">Choose Role</option>
+
+                    <option value="user">User</option>
+
+                    <option value="staff">Staff</option>
+
+                </select>
+
+                <div class="text-center">
+
+                    <input type="submit" value="Create Account">
+
+                </div>
+
+            </form>
+
+            <p class="text-center mt-20">
+
+                Already have an account?
+
+                <a href="/login">Login</a>
+
+            </p>
+
+            <p class="text-center">
+
+                <a href="/">Back to Home</a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

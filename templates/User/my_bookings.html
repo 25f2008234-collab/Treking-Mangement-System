@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <h1>My Bookings</h1>
+
+    <a href="/user">Back to Dashboard</a>
+
+    <br><br>
+
+    {% if bookings %}
+
+    <table border="1" cellpadding="8">
+
+        <tr>
+            <th>Trek Name</th>
+            <th>Location</th>
+            <th>Duration</th>
+            <th>Booking Date</th>
+            <th>Status</th>
+        </tr>
+
+        {% for booking in bookings %}
+
+        <tr>
+
+            <td>{{ booking.trek.name }}</td>
+
+            <td>{{ booking.trek.location }}</td>
+
+            <td>{{ booking.trek.duration }} Days</td>
+
+            <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
+
+            <td>{{ booking.trek.status }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <p>You have not booked any trek yet.</p>
+
+    {% endif %}
+
+</body>
+</html>

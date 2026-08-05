@@ -1,23 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Staff Dashboard</title>
+
+    <title>Staff Dashboard - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>Staff Dashboard</h1>
-    <h3>Welcome {{ staff.name }}</h3>
-    <hr>
-    <h3>Total Assigned Treks : {{ total_treks }}</h3>
-    <h3>Total Participants : {{ total_participants }}</h3>
-    <hr>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Your Trusted Trek Companion</p>
+
+</header>
+
+<nav>
+
+    <a href="/staff_dashboard">Dashboard</a>
+
     <a href="/my_treks">My Treks</a>
-    <br><br>
+
     <a href="/participants">Participants</a>
-    <br><br>
-    <a href="/edit_staff_profile/{{ staff.id }}">Edit Profile</a>
-    <br><br>
+
     <a href="/logout">Logout</a>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Staff Dashboard</h2>
+
+        <p>Welcome, <strong>{{ staff.name }}</strong></p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Overview</h2>
+
+        <table>
+
+            <tr>
+
+                <th>Total Assigned Treks</th>
+
+                <th>Total Participants</th>
+
+            </tr>
+
+            <tr>
+
+                <td>{{ total_treks }}</td>
+
+                <td>{{ total_participants }}</td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Quick Menu</h2>
+
+        <p>
+            <a href="/my_treks" class="btn">My Treks</a>
+        </p>
+
+        <p>
+            <a href="/participants" class="btn">Participants</a>
+        </p>
+
+        <p>
+            <a href="/edit_staff_profile/{{ staff.id }}" class="btn">Edit Profile</a>
+        </p>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p>© 2026 Saarthi | Trekking Management System</p>
+
+</footer>
+
 </body>
+
 </html>

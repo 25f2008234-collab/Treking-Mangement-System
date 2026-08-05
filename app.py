@@ -3,6 +3,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.secret_key = "trekking_management_system"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
@@ -64,9 +65,9 @@ class Userprofile(db.Model):
     address = db.Column(db.Text, nullable=True)
     
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -77,7 +78,7 @@ def login():
         user_ = User.query.filter_by(email=email).first()
 
         if user_ is None:
-            return "Email not found."
+            return "NO account found with this email."
 
         if user_.password != password:
             return "Incorrect Password."
@@ -107,8 +108,8 @@ def signup():
         password = request.form['password']
         role = request.form['role']
 
-        ext_user = User.query.filter_by(email=email).first()
-        if ext_user :
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user :
             return "you are already register. Please Login" 
         new_user = User(username=username, email=email, password=password, role=role)
         db.session.add(new_user)
@@ -126,39 +127,7 @@ def logout():
     session.clear()
     return redirect('/')
 
-
-@app.route("/user")
-def user_dashboard():
-    if "user_id" not in session:
-        return redirect("/login")
-    return render_template("user_dashboard.html")
-
-@app.route("/staff_dashboard")
-def staff_dashboard():
-
-    if "user_id" not in session:
-        return redirect("/login")
-
-    if session["role"] != "staff":
-        return "Access Denied"
-
-    staff = Staff.query.filter_by(name=session["username"]).first()
-
-    if not staff:
-        return "Staff record not found."
-
-    assigned_treks = Trekking_table.query.filter_by(staff_id=staff.id).all()
-
-    total_treks = len(assigned_treks)
-
-    total_participants = 0
-
-    for trek in assigned_treks:
-        count = Booking.query.filter_by(trekking_id=trek.id).count()
-        total_participants += count
-
-    return render_template("Staff/staff_dashboard.html",staff=staff,total_treks=total_treks,total_participants=total_participants)
-
+# Admin
 
 @app.route("/admin_dashboard")
 def admin():
@@ -222,24 +191,44 @@ def book_trek(trek_id):
     if "user_id" not in session:
         return redirect("/login")
 
-    booking = Booking(
+    trek = Trekking_table.query.get_or_404(trek_id)
+
+    if trek.status != "Open":
+        return "This trek is closed. Booking is not allowed."
+
+    if trek.available_slots <= 0:
+        return "No slots available for this trek."
+
+    booking = Booking.query.filter_by(
         user_id=session["user_id"],
-        trekking_id=trek_id,
-        booking_date=datetime.now()
-    )
+        trekking_id=trek_id
+    ).first()
 
-    db.session.add(booking)
+    if booking:
+        return "You have already booked this trek."
+
+    new_booking = Booking(user_id=session["user_id"],trekking_id=trek_id,booking_date=datetime.now())
+
+    db.session.add(new_booking)
+
+    trek.available_slots = trek.available_slots - 1
     db.session.commit()
-
     return redirect("/history")
 
 @app.route("/block_user/<int:user_id>")
-
 def block_user(user_id):
+
     user = User.query.get_or_404(user_id)
+
+    if user.role == "admin":
+        return "Admin account cannot be blocked."
+
     user.status = "Blocked"
+
     db.session.commit()
+
     return redirect("/users")
+
 
 @app.route("/unblock_user/<int:user_id>")
 def unblock_user(user_id):
@@ -355,7 +344,6 @@ def history():
         bookings=bookings
     )
 
-@app.route("/manage_staff", methods=['GET', 'POST'])
 
 @app.route("/users")
 def manage_users():
@@ -391,6 +379,32 @@ def search():
     return render_template("Admin/search.html",results=results,search_type=search_type)
 
 # Staff
+
+@app.route("/staff_dashboard")
+def staff_dashboard():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["role"] != "staff":
+        return "Access Denied"
+
+    staff = Staff.query.filter_by(name=session["username"]).first()
+
+    if not staff:
+        return "Staff record not found."
+
+    assigned_treks = Trekking_table.query.filter_by(staff_id=staff.id).all()
+
+    total_treks = len(assigned_treks)
+
+    total_participants = 0
+
+    for trek in assigned_treks:
+        count = Booking.query.filter_by(trekking_id=trek.id).count()
+        total_participants += count
+
+    return render_template("Staff/staff_dashboard.html",staff=staff,total_treks=total_treks,total_participants=total_participants)
 
 @app.route("/edit_staff_profile/<int:staff_id>", methods=["GET", "POST"])
 def edit_staff_profile(staff_id):
@@ -487,10 +501,6 @@ def update_status(trek_id):
     return render_template("Staff/update_status.html",trek=trek)
 
 
-@app.route("/trek")
-def trek():
-    return render_template("Staff/trek.html")
-
 @app.route("/my_treks")
 def my_treks():
 
@@ -535,7 +545,83 @@ def update_slots(trek_id):
 
     return render_template("Staff/update_slots.html",trek=trek)
 
+# User
 
+@app.route("/user")
+def user_dashboard():
+    if "user_id" not in session:
+        return redirect("/login")
+    return render_template("User/user_dashboard.html")
+
+@app.route("/edit_profile/<int:user_id>", methods=["GET", "POST"])
+def edit_profile(user_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    if session["user_id"] != user_id:
+        return "Access Denied"
+
+    user = User.query.get_or_404(user_id)
+
+    if request.method == "POST":
+        user.username = request.form["username"]
+        user.email = request.form["email"]
+
+        db.session.commit()
+        session["username"] = user.username
+        return redirect("/user")
+    
+    return render_template("User/edit_profile.html", user=user)
+
+@app.route("/browse_treks")
+def browse_treks():
+    if "user_id" not in session:
+        return redirect("/login")
+    treks = Trekking_table.query.all()
+    return render_template("User/browse_treks.html", treks=treks)
+
+@app.route("/trek_details/<int:trek_id>")
+def trek_details(trek_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    trek = Trekking_table.query.get_or_404(trek_id)
+
+    return render_template("User/view_trek.html",trek=trek) 
+
+@app.route("/my_bookings")
+def my_bookings():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    bookings = Booking.query.filter_by(user_id=session["user_id"]).all()
+
+    return render_template("User/my_bookings.html", bookings=bookings)
+
+@app.route("/search_treks", methods=["GET", "POST"])
+def search_treks():
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    treks = Trekking_table.query.all()
+
+    if request.method == "POST":
+
+        search = request.form["search"]
+
+        treks = Trekking_table.query.filter(
+            (Trekking_table.name.contains(search)) |
+            (Trekking_table.location.contains(search))
+        ).all()
+
+    return render_template(
+        "User/search_treks.html",
+        treks=treks
+    )
 
 
 

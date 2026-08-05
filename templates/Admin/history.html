@@ -1,25 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking History</title>
+
+    <title>Booking History - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>My Trekking History</h1>
-    <table border="1">
-        <tr>
-            <th>Trek</th>
-            <th>Date</th>
-        </tr>
-        {% for booking in bookings %}
-        <tr>
-            <td>{{ booking.trek.name }}</td>
-            <td>{{ booking.booking_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <a href="/user">Back</a>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Your Trusted Trek Companion</p>
+
+</header>
+
+<nav>
+
+    <a href="/user">Dashboard</a>
+
+    <a href="/browse_treks">Browse Treks</a>
+
+    <a href="/my_bookings">My Bookings</a>
+
+    <a href="/logout">Logout</a>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Booking History</h2>
+
+        <p>Your previous trekking bookings are listed below.</p>
+
+        {% if bookings %}
+
+        <table>
+
+            <tr>
+
+                <th>Trek Name</th>
+
+                <th>Booking Date</th>
+
+            </tr>
+
+            {% for booking in bookings %}
+
+            <tr>
+
+                <td>{{ booking.trek.name }}</td>
+
+                <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <p>No booking history available.</p>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/user" class="btn">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p>© 2026 Saarthi | Trekking Management System</p>
+
+</footer>
+
 </body>
+
 </html>

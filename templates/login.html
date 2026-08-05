@@ -1,23 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/login" method ="POST">
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" required><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br><br>
-        <select name="role"  required>
-            <option value="user">User</option>
-            <option value="staff">Staff</option>
-            <option value="admin">Admin</option>
-        </select><br><br>
-        <button type="submit">Login</button>
 
-    </form>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>Saarthi</h1>
+
+        <p>Your Trusted Trek Companion</p>
+
+    </header>
+
+    <nav>
+
+        <a href="/">Home</a>
+
+        <a href="/login">Login</a>
+
+        <a href="/signup">Sign Up</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2 class="text-center">Login</h2>
+
+            <form action="/login" method="POST">
+
+                <label>Email</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required>
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required>
+
+                <div class="text-center">
+
+                    <input type="submit" value="Login">
+
+                </div>
+
+            </form>
+
+            <p class="text-center mt-20">
+
+                Don't have an account?
+
+                <a href="/signup">Sign Up</a>
+
+            </p>
+
+            <p class="text-center">
+
+                <a href="/">Back to Home</a>
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

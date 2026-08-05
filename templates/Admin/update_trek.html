@@ -1,34 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Trek</title>
+
+    <title>Update Trek - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>Update Trek</h1>
-    <form method="POST">
-        <label>Trek Name</label><br>
-        <input type="text" name="name" value="{{ trek.name }}">
-        <br><br>
 
-        <label>Location</label><br>
-        <input type="text" name="location" value="{{ trek.location }}">
-        <br><br>
+    <header>
 
-        <label>Description</label><br>
-        <textarea name="description">{{ trek.description }}</textarea>
-        <br><br>
+        <h1>Saarthi</h1>
 
-        <label>Duration (Days)</label><br>
-        <input type="number" name="duration" value="{{ trek.duration }}">
-        <br><br>
+        <p>Your Trusted Trek Companion</p>
 
-        <input type="submit" value="Update Trek">
-    </form>
-    <br>
-    <a href="/treks">Back</a>
-    </form>
-    {{trek.name}}
+    </header>
+
+    <nav>
+
+        <a href="/admin_dashboard">Dashboard</a>
+
+        <a href="/treks">Manage Treks</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Update Trek</h2>
+
+            <p>Edit the trek information below.</p>
+
+            <form method="POST">
+
+                <label>Trek Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ trek.name }}"
+                    required>
+
+                <label>Location</label>
+
+                <input
+                    type="text"
+                    name="location"
+                    value="{{ trek.location }}"
+                    required>
+
+                <label>Description</label>
+
+                <textarea
+                    name="description"
+                    required>{{ trek.description }}</textarea>
+
+                <label>Duration (Days)</label>
+
+                <input
+                    type="number"
+                    name="duration"
+                    value="{{ trek.duration }}"
+                    required>
+
+                <br>
+
+                <input type="submit" value="Update Trek">
+
+            </form>
+
+            <br>
+
+            <a href="/treks" class="btn">Back to Manage Treks</a>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

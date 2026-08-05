@@ -1,50 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Staff</title>
+
+    <title>Manage Staff - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>Staff Management</h1>
-    <h2>Add Staff</h2>
-    <form method="POST">
-        <label>Name</label><br>
-        <input type="text" name="name" required>
-        <br><br>
-        <label>Role</label><br>
-        <input type="text" name="role" required>
-        <br><br>
-        <input type="submit" value="Add Staff">
-    </form>
-    <hr>
-    <h2>All Staff</h2>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Action</th>
-        </tr>
-        {% for staff in staff_members %}
-        <tr>
-            <td>{{ staff.id }}</td>
-            <td>{{ staff.name }}</td>
-            <td>{{ staff.role }}</td>
-            <td>{{ staff.status }}</td>
-            <td>
-                <a href="/remove_staff/{{ staff.id }}">Remove</a>
-                {% if staff.status == "Active" %}
-                    <a href="/block_staff/{{ staff.id }}">Block</a>
-                {% else %}
-                    <a href="/unblock_staff/{{ staff.id }}">Unblock</a>
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <a href="/admin_dashboard">Back to Dashboard</a>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Your Trusted Trek Companion</p>
+
+</header>
+
+<nav>
+
+    <a href="/admin_dashboard">Dashboard</a>
+
+    <a href="/treks">Treks</a>
+
+    <a href="/logout">Logout</a>
+
+</nav>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Staff Management</h2>
+
+<p>Add new staff members and manage existing staff.</p>
+
+<form method="POST">
+
+<label>Name</label>
+
+<input
+type="text"
+name="name"
+placeholder="Enter Staff Name"
+required>
+
+
+<label>Role</label>
+
+<select name="role" required>
+
+    <option value="staff">Staff</option>
+
+</select>
+
+<input
+type="submit"
+value="Add Staff">
+
+</form>
+
+</div>
+
+<div class="card">
+
+<h2>Staff List</h2>
+
+<table>
+
+<tr>
+
+<th>ID</th>
+
+<th>Name</th>
+
+<th>Role</th>
+
+<th>Status</th>
+
+<th>Actions</th>
+
+</tr>
+
+{% for staff in staff_members %}
+
+<tr>
+
+<td>{{ staff.id }}</td>
+
+<td>{{ staff.name }}</td>
+
+<td>{{ staff.role }}</td>
+
+<td>{{ staff.status }}</td>
+
+<td>
+
+<a href="/remove_staff/{{ staff.id }}">Remove</a>
+
+|
+
+{% if staff.status=="Active" %}
+
+<a href="/block_staff/{{ staff.id }}">Block</a>
+
+{% else %}
+
+<a href="/unblock_staff/{{ staff.id }}">Unblock</a>
+
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/admin_dashboard" class="btn">
+
+Back to Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>© 2026 Saarthi | Trekking Management System</p>
+
+</footer>
+
 </body>
+
 </html>

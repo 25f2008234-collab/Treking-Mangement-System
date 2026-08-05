@@ -1,45 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>My Treks - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>My Assigned Treks</h1>
-    <a href="/staff_dashboard">Back to Dashboard</a>
-    <br><br>
-    {% if treks %}
-    <table border="1">
-        <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Duration</th>
-            <th>Slots</th>
-            <th>Status</th>
-            <th>Progress</th>
-            <th>Action</th>
-            <th>Update Status</th>
-            <th>Update Progress</th>
-        </tr>
-        {% for trek in treks %}
-        <tr>
-            <td>{{ trek.name }}</td>
-            <td>{{ trek.location }}</td>
-            <td>{{ trek.duration }}</td>
-            <td>{{ trek.available_slots }}</td>
-            <td>{{ trek.status }}</td>
-            <td>{{ trek.progress }}</td>
-            <td><a href="/update_slots/{{ trek.id }}">Update Slots</a></td>
-            <td><a href="/update_status/{{ trek.id }}">Update Status</a></td>
-            <td><a href="/update_progress/{{ trek.id }}">Update Progress</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-    {% else %}
-    <h3>No Trek Assigned</h3>
-    {% endif %}
-    <br>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Your Trusted Trek Companion</p>
+
+</header>
+
+<nav>
+
+    <a href="/staff_dashboard">Dashboard</a>
+
+    <a href="/participants">Participants</a>
+
     <a href="/logout">Logout</a>
+
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>My Assigned Treks</h2>
+
+        <p>View and manage the treks assigned to you.</p>
+
+        {% if treks %}
+
+        <table>
+
+            <tr>
+
+                <th>Name</th>
+
+                <th>Location</th>
+
+                <th>Duration</th>
+
+                <th>Available Slots</th>
+
+                <th>Status</th>
+
+                <th>Progress</th>
+
+                <th>Actions</th>
+
+            </tr>
+
+            {% for trek in treks %}
+
+            <tr>
+
+                <td>{{ trek.name }}</td>
+
+                <td>{{ trek.location }}</td>
+
+                <td>{{ trek.duration }} Days</td>
+
+                <td>{{ trek.available_slots }}</td>
+
+                <td>{{ trek.status }}</td>
+
+                <td>{{ trek.progress }}</td>
+
+                <td>
+
+                    <a href="/update_slots/{{ trek.id }}">Slots</a>
+
+                    |
+
+                    <a href="/update_status/{{ trek.id }}">Status</a>
+
+                    |
+
+                    <a href="/update_progress/{{ trek.id }}">Progress</a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <p>No trek has been assigned to you yet.</p>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/staff_dashboard" class="btn">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <p>© 2026 Saarthi | Trekking Management System</p>
+
+</footer>
+
 </body>
+
 </html>

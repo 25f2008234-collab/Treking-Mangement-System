@@ -1,36 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+
+    <title>Manage Users - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>Manage Users</h1>
-    <table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Status</th>
-        <th>Action</th>
-    </tr>
-    {% for user in users %}
-    <tr>
-        <td>{{ user.id }}</td>
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.status }}</td>
-        <td>
-        {% if user.status == "Active" %}
-        <a href="/block_user/{{ user.id }}">Block</a>
-        {% else %}
-        <a href="/unblock_user/{{ user.id }}">Unblock</a>
-        {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-    <br>
-    <a href="/admin_dashboard">Back</a>
+
+    <header>
+
+        <h1>Saarthi</h1>
+
+        <p>Your Trusted Trek Companion</p>
+
+    </header>
+
+    <nav>
+
+        <a href="/admin_dashboard">Dashboard</a>
+
+        <a href="/treks">Treks</a>
+
+        <a href="/staff">Staff</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Manage Users</h2>
+
+            <p>View all registered users and manage their account status.</p>
+
+            <table>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Username</th>
+
+                    <th>Email</th>
+
+                    <th>Role</th>
+
+                    <th>Status</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                {% for user in users %}
+
+                <tr>
+
+                    <td>{{ user.id }}</td>
+
+                    <td>{{ user.username }}</td>
+
+                    <td>{{ user.email }}</td>
+
+                    <td>{{ user.role }}</td>
+
+                    <td>{{ user.status }}</td>
+
+                    <td>
+
+                        {% if user.status == "Active" %}
+
+                            <a href="/block_user/{{ user.id }}">Block</a>
+
+                        {% else %}
+
+                            <a href="/unblock_user/{{ user.id }}">Unblock</a>
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <br>
+
+            <a href="/admin_dashboard" class="btn">
+
+                Back to Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

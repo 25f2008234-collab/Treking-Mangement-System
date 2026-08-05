@@ -1,46 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Treks</title>
+
+    <title>Manage Treks - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1> Manage Treks </h1>
-    <a href="/create_trek">Add New Trek</a>
-    <br><br>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Description</th>
-            <th>Duration</th>
-            <th>Assigned Staff</th>
-            <th>Actions</th>
-        </tr>
-        {% for trek in treks %}
-        <tr>
-            <td>{{ trek.id }}</td>
-            <td>{{ trek.name }}</td>
-            <td>{{ trek.location }}</td>
-            <td>{{ trek.description }}</td>
-            <td>{{ trek.duration }} Days</td>
-            <td>
-                {% if trek.staff %}
-                    {{ trek.staff.name }}
-                {% else %}
-                    Not Assigned
-                {% endif %}
-            </td>         
-            <td>
-                <a href="/update_trek/{{ trek.id }}">Edit</a>
-                <a href="/remove_trek/{{ trek.id }}">Delete</a>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br><br>
-    <a href="/admin_dashboard">Back to Dashboard</a>
+
+    <header>
+
+        <h1>Saarthi</h1>
+
+        <p>Your Trusted Trek Companion</p>
+
+    </header>
+
+    <nav>
+
+        <a href="/admin_dashboard">Dashboard</a>
+
+        <a href="/create_trek">Add Trek</a>
+
+        <a href="/logout">Logout</a>
+
+    </nav>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h2>Manage Treks</h2>
+
+            <p>
+                View, update and manage all trekking records.
+            </p>
+
+            <br>
+
+            <a href="/create_trek" class="btn">+ Add New Trek</a>
+
+            <table>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Name</th>
+
+                    <th>Location</th>
+
+                    <th>Duration</th>
+
+                    <th>Staff</th>
+
+                    <th>Status</th>
+
+                    <th>Progress</th>
+
+                    <th>Action</th>
+
+                </tr>
+
+                {% for trek in treks %}
+
+                <tr>
+
+                    <td>{{ trek.id }}</td>
+
+                    <td>{{ trek.name }}</td>
+
+                    <td>{{ trek.location }}</td>
+
+                    <td>{{ trek.duration }} Days</td>
+
+                    <td>
+
+                        {% if trek.staff %}
+
+                            {{ trek.staff.name }}
+
+                        {% else %}
+
+                            Not Assigned
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>{{ trek.status }}</td>
+
+                    <td>{{ trek.progress }}</td>
+
+                    <td>
+
+                        <a href="/update_trek/{{ trek.id }}">Edit</a>
+
+                        |
+
+                        <a href="/remove_trek/{{ trek.id }}">Delete</a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <br>
+
+            <a href="/admin_dashboard" class="btn">Back to Dashboard</a>
+
+        </div>
+
+    </div>
+
+    <footer>
+
+        <p>© 2026 Saarthi | Trekking Management System</p>
+
+    </footer>
+
 </body>
+
 </html>

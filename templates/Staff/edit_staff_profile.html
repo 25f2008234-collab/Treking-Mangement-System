@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Staff Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <h1>Edit Staff Profile</h1>
-    <form method="POST" action="/update_staff/{{ staff.id }}">
+    <form method="POST" action="/edit_staff_profile/{{ staff.id }}">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value="{{ staff.name }}" required>
         <br><br>

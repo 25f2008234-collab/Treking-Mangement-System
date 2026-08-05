@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Treks</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Available Treks</h1>
+    <a href="/user">Back to Dashboard</a>
+    <br><br>
+    {% if treks %}
+    <table border="1" cellpadding="8">
+
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Duration</th>
+            <th>Available Slots</th>
+            <th>Status</th>
+            <th>View</th>
+            <th>Book</th>
+        </tr>
+        {% for trek in treks %}
+        <tr>
+            <td>{{ trek.name }}</td>
+            <td>{{ trek.location }}</td>
+            <td>{{ trek.duration }} Days</td>
+            <td>{{ trek.available_slots }}</td>
+            <td>{{ trek.status }}</td>
+            <td>
+                <a href="/trek_details/{{ trek.id }}">View Details</a>
+            </td>
+            <td>
+                <a href="/book_trek/{{ trek.id }}">Book Trek</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No treks available.</p>
+    {% endif %}
+</body>
+</html>

@@ -1,29 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking Records</title>
+
+    <title>Booking Records - Saarthi</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
 </head>
+
 <body>
-    <h1>All Booking Records</h1>
-    <table border="1">
-        <tr>
-            <th>Booking ID</th>
-            <th>User</th>
-            <th>Trek</th>
-            <th>Date</th>
-        </tr>
-        {% for booking in bookings %}
-        <tr>
-            <td>{{ booking.id }}</td>
-            <td>{{ booking.user.username }}</td>
-            <td>{{ booking.trek.name }}</td>
-            <td>{{ booking.booking_date }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-    <br>
-    <a href="/admin_dashboard">Back</a>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Your Trusted Trek Companion</p>
+
+</header>
+
+<nav>
+
+    <a href="/admin_dashboard">Dashboard</a>
+
+    <a href="/treks">Treks</a>
+
+    <a href="/staff">Staff</a>
+
+    <a href="/users">Users</a>
+
+    <a href="/logout">Logout</a>
+
+</nav>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Booking Records</h2>
+
+<p>View all trek bookings made by users.</p>
+
+<table>
+
+<tr>
+
+<th>Booking ID</th>
+
+<th>User</th>
+
+<th>Trek</th>
+
+<th>Booking Date</th>
+
+</tr>
+
+{% for booking in bookings %}
+
+<tr>
+
+<td>{{ booking.id }}</td>
+
+<td>{{ booking.user.username }}</td>
+
+<td>{{ booking.trek.name }}</td>
+
+<td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/admin_dashboard" class="btn">
+
+Back to Dashboard
+
+</a>
+
+</div>
+
+</div>
+
+<footer>
+
+<p>© 2026 Saarthi | Trekking Management System</p>
+
+</footer>
+
 </body>
+
 </html>
