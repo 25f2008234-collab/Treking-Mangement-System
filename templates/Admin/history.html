@@ -1,44 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Booking History - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>Saarthi</h1>
 
-<body>
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-<header>
+    <nav>
+      <a href="/user">Dashboard</a>
 
-    <h1>Saarthi</h1>
+      <a href="/browse_treks">Browse Treks</a>
 
-    <p>Your Trusted Trek Companion</p>
+      <a href="/my_bookings">My Bookings</a>
 
-</header>
+      <a href="/logout">Logout</a>
+    </nav>
 
-<nav>
-
-    <a href="/user">Dashboard</a>
-
-    <a href="/browse_treks">Browse Treks</a>
-
-    <a href="/my_bookings">My Bookings</a>
-
-    <a href="/logout">Logout</a>
-
-</nav>
-
-<div class="container">
-
-    <div class="card">
-
+    <div class="container">
+      <div class="card">
         <h2>Booking History</h2>
 
         <p>Your previous trekking bookings are listed below.</p>
@@ -46,27 +39,29 @@
         {% if bookings %}
 
         <table>
+          <tr>
+            <th>Trek Name</th>
 
-            <tr>
+            <th>Booking Date</th>
+            <th>Booking Status</th>
+            <th>Payment Status</th>
+            <th>Trek Status</th>
+            <th>Progress</th>
+          </tr>
 
-                <th>Trek Name</th>
+          {% for booking in bookings %}
 
-                <th>Booking Date</th>
+          <tr>
+            <td>{{ booking.trek.name }}</td>
 
-            </tr>
+            <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
+            <td>{{ booking.booking_status }}</td>
+            <td>{{ booking.payment_status }}</td>
+            <td>{{ booking.trek.status }}</td>
+            <td>{{ booking.trek.progress }}</td>
+          </tr>
 
-            {% for booking in bookings %}
-
-            <tr>
-
-                <td>{{ booking.trek.name }}</td>
-
-                <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
-
-            </tr>
-
-            {% endfor %}
-
+          {% endfor %}
         </table>
 
         {% else %}
@@ -75,24 +70,14 @@
 
         {% endif %}
 
-        <br>
+        <br />
 
-        <a href="/user" class="btn">
-
-            Back to Dashboard
-
-        </a>
-
+        <a href="/user" class="btn"> Back to Dashboard </a>
+      </div>
     </div>
 
-</div>
-
-<footer>
-
-    <p>© 2026 Saarthi | Trekking Management System</p>
-
-</footer>
-
-</body>
-
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

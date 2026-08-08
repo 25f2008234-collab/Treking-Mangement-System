@@ -1,5 +1,5 @@
 from flask import Flask, redirect , render_template,request, session 
-from datetime import datetime
+from datetime import datetime , date
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -24,9 +24,11 @@ class Trekking_table(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     description = db.Column(db.Text, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
+    start_date = db.Column(db.Date, nullable=False)
+    difficulty = db.Column(db.String(20), default="Easy")
     staff_id = db.Column(db.Integer, db.ForeignKey('staff.id'))
     available_slots = db.Column(db.Integer, default=20)
-    status = db.Column(db.String(20), default="Open")
+    status = db.Column(db.String(20), default="Upcoming")
     progress = db.Column(db.String(20), default="Not Started")
 
 class Booking(db.Model):
@@ -34,6 +36,8 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     trekking_id = db.Column(db.Integer, db.ForeignKey('trekking_table.id'), nullable=False)
     booking_date = db.Column(db.DateTime, nullable=False)
+    booking_status = db.Column(db.String(20), default="Confirmed")
+    payment_status = db.Column(db.String(20), default="Pending")
     user = db.relationship('User')
     trek = db.relationship('Trekking_table')
 
@@ -55,7 +59,7 @@ class Staff(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), nullable=False)
-    status = db.Column(db.String(20), default="Active")
+    status = db.Column(db.String(20), default="pending")
     treks = db.relationship('Trekking_table', backref='staff', lazy=True)
 
 class Userprofile(db.Model):
@@ -93,6 +97,15 @@ def login():
             return redirect("/admin_dashboard")
 
         elif user_.role == "staff":
+
+            staff = Staff.query.filter_by(name=user_.username).first()
+
+            if not staff:
+                return "Staff record not found."
+
+            if staff.status != "Active":
+                return "Your account is waiting for Admin approval."
+
             return redirect("/staff_dashboard")
 
         else:
@@ -115,7 +128,7 @@ def signup():
         db.session.add(new_user)
         db.session.commit()
         if role == "staff":
-            new_staff = Staff(name=username, role="staff")
+            new_staff = Staff(name=username, role="staff", status="Pending")
             db.session.add(new_staff)
             db.session.commit()
             
@@ -149,11 +162,31 @@ def create_trek():
         name = request.form['name']
         location = request.form['location']
         description = request.form["description"]
-        duration = request.form["duration"]
+        duration = int(request.form["duration"])
+        
+        if duration <= 0:
+            return "Duration must be greater than 0."
+
+        difficulty = request.form["difficulty"]
+        available_slots = int(request.form["available_slots"])
+
+        start_date = datetime.strptime(request.form["start_date"],"%Y-%m-%d").date()
+
+        if start_date <= date.today():
+            return "Start date must be after today."
+
+        if available_slots <= 0:
+            return "Available slots must be greater than 0."
+
+
+        existing_trek = Trekking_table.query.filter_by(name=name).first()
+
+        if existing_trek:
+            return "A trek with this name already exists."
 
         user_id = session.get('user_id')
 
-        new_trek = Trekking_table(name=name, location=location, description=description, duration=duration, user_id=user_id)
+        new_trek = Trekking_table(name=name, location=location, description=description, duration=duration, start_date=start_date, difficulty=difficulty, available_slots=available_slots, status="Upcoming", user_id=user_id)
         db.session.add(new_trek)
         db.session.commit()
 
@@ -168,7 +201,17 @@ def update_trek(trek_id):
         trek.name = request.form['name']
         trek.location = request.form['location']
         trek.description = request.form['description']
-        trek.duration = request.form['duration']
+        trek.duration = int(request.form['duration'])
+        trek.difficulty = request.form['difficulty']
+        trek.available_slots = int(request.form["available_slots"])
+        trek.start_date = datetime.strptime(request.form["start_date"],"%Y-%m-%d").date()
+
+        if trek.start_date <= date.today():
+            return "Start date must be after today."
+
+        if trek.available_slots <= 0:
+            return "Available slots must be greater than 0."
+
         db.session.commit()
         return redirect("/treks")
     return render_template('Admin/update_trek.html', trek=trek)
@@ -176,6 +219,11 @@ def update_trek(trek_id):
 @app.route("/remove_trek/<int:trek_id>")
 def remove_trek(trek_id):
     trek = Trekking_table.query.get_or_404(trek_id)
+
+    booking = Booking.query.filter_by(trekking_id=trek.id).first()
+
+    if booking:
+        return "This trek has bookings. It cannot be deleted."
     db.session.delete(trek)
     db.session.commit()
     return redirect("/treks")
@@ -207,13 +255,21 @@ def book_trek(trek_id):
     if booking:
         return "You have already booked this trek."
 
-    new_booking = Booking(user_id=session["user_id"],trekking_id=trek_id,booking_date=datetime.now())
+    new_booking = Booking(
+        user_id=session["user_id"],
+        trekking_id=trek_id,
+        booking_date=datetime.now(),
+        booking_status="Booked",
+        payment_status="Paid"
+    )
 
     db.session.add(new_booking)
 
-    trek.available_slots = trek.available_slots - 1
+    trek.available_slots -= 1
+
     db.session.commit()
-    return redirect("/history")
+
+    return redirect("/my_bookings")
 
 @app.route("/block_user/<int:user_id>")
 def block_user(user_id):
@@ -253,19 +309,33 @@ def staff():
 
     return render_template('Admin/staff.html', staff_members=staff_members)
 
-@app.route("/approve_staff", methods=['GET', 'POST'])
+@app.route("/approve_staff", methods=["GET", "POST"])
 def approve_staff():
-    if request.method == 'POST':
-        staff_id = request.form['staff_id']
+
+    if request.method == "POST":
+
+        staff_id = request.form["staff_id"]
+
         staff_member = Staff.query.get(staff_id)
+
         if staff_member:
-            staff_member.role = "approved"
+
+            staff_member.status = "Active"
+
             db.session.commit()
-            return redirect('Admin/admin_dashboard')
+
+            return redirect("/staff")
+
         else:
             return "Staff member not found."
+
     staff_members = Staff.query.all()
-    return render_template('Admin/approve_staff.html', staff_members=staff_members)
+
+    return render_template(
+        "Admin/approve_staff.html",
+        staff_members=staff_members
+    )
+
 
 @app.route("/block_staff/<int:staff_id>")
 def block_staff(staff_id):
@@ -296,18 +366,30 @@ def remove_staff(staff_id):
 
     return redirect("/staff")
 
-@app.route("/assign_trek", methods=['GET', 'POST'])
-
+@app.route("/assign_trek", methods=["GET", "POST"])
 def assign_trek():
+
     if request.method == "POST":
-        staff_id = request.form["staff_id"]
-        trek_id = request.form["trek_id"]
+
+        staff_id = int(request.form["staff_id"])
+        trek_id = int(request.form["trek_id"])
 
         trek = Trekking_table.query.get(trek_id)
 
-        if trek:
-            trek.staff_id = staff_id
-            db.session.commit()
+        if not trek:
+            return "Trek not found."
+
+        active_trek = Trekking_table.query.filter(
+            Trekking_table.staff_id == staff_id,
+            Trekking_table.status != "Completed"
+        ).first()
+
+        if active_trek:
+            return "This staff member is already assigned to another active trek."
+
+        trek.staff_id = staff_id
+
+        db.session.commit()
 
         return redirect("/treks")
 
@@ -325,9 +407,7 @@ def bookings():
 
     bookings = Booking.query.all()
 
-    return render_template(
-        "Admin/booking.html",
-        bookings=bookings)
+    return render_template("Admin/booking.html",bookings=bookings)
 
 @app.route("/history")
 def history():
@@ -339,10 +419,7 @@ def history():
         user_id=session["user_id"]
     ).all()
 
-    return render_template(
-        "Admin/history.html",
-        bookings=bookings
-    )
+    return render_template("Admin/history.html",bookings=bookings)
 
 
 @app.route("/users")
@@ -468,6 +545,15 @@ def update_progress(trek_id):
 
         trek.progress = request.form["progress"]
 
+        if trek.progress == "Completed":
+
+            trek.status = "Closed"
+
+            bookings = Booking.query.filter_by(trekking_id=trek.id).all()
+
+            for booking in bookings:
+                booking.booking_status = "Completed"
+
         db.session.commit()
 
         return redirect("/my_treks")
@@ -493,6 +579,16 @@ def update_status(trek_id):
     if request.method == "POST":
 
         trek.status = request.form["status"]
+
+        if trek.status == "Completed":
+
+            bookings = Booking.query.filter_by(
+                trekking_id=trek.id,
+                booking_status="Booked"
+            ).all()
+
+            for booking in bookings:
+                booking.booking_status = "Completed"
 
         db.session.commit()
 
@@ -537,7 +633,17 @@ def update_slots(trek_id):
 
     if request.method == "POST":
 
-        trek.available_slots = request.form["slots"]
+        new_slots = int(request.form["slots"])
+
+        booked_count = Booking.query.filter_by(
+            trekking_id=trek.id,
+            booking_status="Booked"
+        ).count()
+
+        if new_slots < booked_count:
+            return "Available slots cannot be less than booked participants."
+
+        trek.available_slots = new_slots
 
         db.session.commit()
 
@@ -615,14 +721,33 @@ def search_treks():
 
         treks = Trekking_table.query.filter(
             (Trekking_table.name.contains(search)) |
-            (Trekking_table.location.contains(search))
+            (Trekking_table.location.contains(search)) |
+            (Trekking_table.difficulty.contains(search))
         ).all()
 
-    return render_template(
-        "User/search_treks.html",
-        treks=treks
-    )
+    return render_template("User/search_treks.html",treks=treks)
 
+@app.route("/cancel_booking/<int:booking_id>")
+def cancel_booking(booking_id):
+
+    if "user_id" not in session:
+        return redirect("/login")
+
+    booking = Booking.query.get_or_404(booking_id)
+
+    if booking.user_id != session["user_id"]:
+        return "Access Denied"
+
+    trek = Trekking_table.query.get(booking.trekking_id)
+
+    if trek:
+        trek.available_slots += 1
+
+    db.session.delete(booking)
+
+    db.session.commit()
+
+    return redirect("/my_bookings")
 
 
 if __name__ == "__main__":

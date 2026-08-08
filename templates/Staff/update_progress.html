@@ -1,27 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Progress</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>Update Trek Progress</h1>
-    <form method="POST">
-        <p><b>{{ trek.name }}</b></p>
-        <label>Progress</label>
-        <select name="progress">
-            <option value="Not Started">Not Started</option>
-            <option value="Started">Started</option>
-            <option value="Ongoing">Ongoing</option>
-            <option value="Completed">Completed</option>
-        </select>
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
-    <br>
-    <a href="/my_treks">Back</a>
+  <head>
+    <meta charset="UTF-8" />
 
-</body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Update Progress - Saarthi</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>Saarthi</h1>
+
+      <p>Your Trusted Trek Companion</p>
+    </header>
+
+    <nav>
+      <a href="/staff_dashboard">Dashboard</a>
+
+      <a href="/my_treks">My Treks</a>
+
+      <a href="/participants">Participants</a>
+
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>Update Trek Progress</h2>
+
+        <p><strong>Trek:</strong> {{ trek.name }}</p>
+
+        <form method="POST">
+          <label>Progress</label>
+
+          <select name="progress">
+            <option value="Not Started">Not Started</option>
+
+            <option value="Started">Started</option>
+
+            <option value="Ongoing">Ongoing</option>
+
+            <option value="Completed">Completed</option>
+          </select>
+
+          <input type="submit" value="Update Progress" />
+        </form>
+
+        <br />
+
+        <a href="/my_treks" class="btn"> Back to My Treks </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

@@ -1,42 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>My Treks - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>Saarthi</h1>
 
-<body>
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-<header>
+    <nav>
+      <a href="/staff_dashboard">Dashboard</a>
 
-    <h1>Saarthi</h1>
+      <a href="/participants">Participants</a>
 
-    <p>Your Trusted Trek Companion</p>
+      <a href="/logout">Logout</a>
+    </nav>
 
-</header>
-
-<nav>
-
-    <a href="/staff_dashboard">Dashboard</a>
-
-    <a href="/participants">Participants</a>
-
-    <a href="/logout">Logout</a>
-
-</nav>
-
-<div class="container">
-
-    <div class="card">
-
+    <div class="container">
+      <div class="card">
         <h2>My Assigned Treks</h2>
 
         <p>View and manage the treks assigned to you.</p>
@@ -44,59 +37,51 @@
         {% if treks %}
 
         <table>
+          <tr>
+            <th>Name</th>
 
-            <tr>
+            <th>Location</th>
 
-                <th>Name</th>
+            <th>Duration</th>
 
-                <th>Location</th>
+            <th>Available Slots</th>
 
-                <th>Duration</th>
+            <th>Status</th>
 
-                <th>Available Slots</th>
+            <th>Progress</th>
 
-                <th>Status</th>
+            <th>Actions</th>
+          </tr>
 
-                <th>Progress</th>
+          {% for trek in treks %}
 
-                <th>Actions</th>
+          <tr>
+            <td>{{ trek.name }}</td>
 
-            </tr>
+            <td>{{ trek.location }}</td>
 
-            {% for trek in treks %}
+            <td>{{ trek.duration }} Days</td>
 
-            <tr>
+            <td>{{ trek.available_slots }}</td>
 
-                <td>{{ trek.name }}</td>
+            <td>{{ trek.status }}</td>
 
-                <td>{{ trek.location }}</td>
+            <td>{{ trek.progress }}</td>
 
-                <td>{{ trek.duration }} Days</td>
+            <td>
+              <a href="/update_slots/{{ trek.id }}">Slots</a>
 
-                <td>{{ trek.available_slots }}</td>
+              |
 
-                <td>{{ trek.status }}</td>
+              <a href="/update_status/{{ trek.id }}">Status</a>
 
-                <td>{{ trek.progress }}</td>
+              |
 
-                <td>
+              <a href="/update_progress/{{ trek.id }}">Progress</a>
+            </td>
+          </tr>
 
-                    <a href="/update_slots/{{ trek.id }}">Slots</a>
-
-                    |
-
-                    <a href="/update_status/{{ trek.id }}">Status</a>
-
-                    |
-
-                    <a href="/update_progress/{{ trek.id }}">Progress</a>
-
-                </td>
-
-            </tr>
-
-            {% endfor %}
-
+          {% endfor %}
         </table>
 
         {% else %}
@@ -105,24 +90,14 @@
 
         {% endif %}
 
-        <br>
+        <br />
 
-        <a href="/staff_dashboard" class="btn">
-
-            Back to Dashboard
-
-        </a>
-
+        <a href="/staff_dashboard" class="btn"> Back to Dashboard </a>
+      </div>
     </div>
 
-</div>
-
-<footer>
-
-    <p>© 2026 Saarthi | Trekking Management System</p>
-
-</footer>
-
-</body>
-
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

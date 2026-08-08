@@ -1,25 +1,68 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>Edit Profile</h1>
-    <form method="POST">
-        <label>Username</label><br>
-        <input type="text" name="username" value="{{ user.username }}" required>
-        <br><br>
-        <label>Email</label><br>
-        <input type="email" name="email" value="{{ user.email }}" required>
-        <br><br>
-        <input type="submit" value="Update Profile">
-    </form>
-    <br>
-    <a href="/user">Back to Dashboard</a>
+  <head>
+    <meta charset="UTF-8" />
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-</body>
+    <title>Edit Profile - Saarthi</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>Saarthi</h1>
+
+      <p>Your Trusted Trek Companion</p>
+    </header>
+
+    <nav>
+      <a href="/user">Dashboard</a>
+
+      <a href="/browse_treks">Browse Treks</a>
+
+      <a href="/search_treks">Search Treks</a>
+
+      <a href="/my_bookings">My Bookings</a>
+
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>Edit Profile</h2>
+
+        <p>Update your personal information.</p>
+
+        <form method="POST">
+          <label>Username</label>
+
+          <input
+            type="text"
+            name="username"
+            value="{{ user.username }}"
+            required
+          />
+
+          <label>Email</label>
+
+          <input type="email" name="email" value="{{ user.email }}" required />
+
+          <input type="submit" value="Update Profile" />
+        </form>
+
+        <br />
+
+        <a href="/user" class="btn"> Back to Dashboard </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

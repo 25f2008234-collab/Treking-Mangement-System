@@ -1,24 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update Trek Status</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>Update Trek Status</h1>
-    <form method="POST">
-        <p><b>{{ trek.name }}</b></p>
-        <label>Status</label>
-        <select name="status">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Update Status - Saarthi</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>Saarthi</h1>
+
+      <p>Your Trusted Trek Companion</p>
+    </header>
+
+    <nav>
+      <a href="/staff_dashboard">Dashboard</a>
+
+      <a href="/my_treks">My Treks</a>
+
+      <a href="/participants">Participants</a>
+
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>Update Trek Status</h2>
+
+        <p><strong>Trek:</strong> {{ trek.name }}</p>
+
+        <form method="POST">
+          <label>Status</label>
+
+          <select name="status">
             <option value="Open">Open</option>
+
             <option value="Closed">Closed</option>
-        </select>
-        <br><br>
-        <button type="submit">Update</button>
-    </form>
-    <br>
-    <a href="/my_treks">Back</a>
-</body>
+          </select>
+
+          <input type="submit" value="Update Status" />
+        </form>
+
+        <br />
+
+        <a href="/my_treks" class="btn"> Back to My Treks </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

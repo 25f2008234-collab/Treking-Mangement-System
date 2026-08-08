@@ -2,35 +2,110 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>View Trek</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>{{ trek.name }} - Saarthi</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
   </head>
+
   <body>
-    <h1>Trek Details</h1>
+    <header>
+      <h1>Saarthi</h1>
 
-    <hr />
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-    <p><strong>Trek Name :</strong> {{ trek.name }}</p>
+    <nav>
+      <a href="/user">Dashboard</a>
 
-    <p><strong>Location :</strong> {{ trek.location }}</p>
+      <a href="/browse_treks">Browse Treks</a>
 
-    <p><strong>Description :</strong> {{ trek.description }}</p>
+      <a href="/search_treks">Search Treks</a>
 
-    <p><strong>Duration :</strong> {{ trek.duration }} Days</p>
+      <a href="/my_bookings">My Bookings</a>
 
-    <p><strong>Available Slots :</strong> {{ trek.available_slots }}</p>
+      <a href="/logout">Logout</a>
+    </nav>
 
-    <p><strong>Status :</strong> {{ trek.status }}</p>
+    <div class="container">
+      <div class="card">
+        <h2>{{ trek.name }}</h2>
 
-    <p><strong>Progress :</strong> {{ trek.progress }}</p>
+        <table>
+          <tr>
+            <th>Location</th>
+            <td>{{ trek.location }}</td>
+          </tr>
 
-    <br />
+          <tr>
+            <th>Description</th>
+            <td>{{ trek.description }}</td>
+          </tr>
 
-    <a href="/book_trek/{{ trek.id }}">Book Trek</a>
+          <tr>
+            <th>Duration</th>
+            <td>{{ trek.duration }} Days</td>
+          </tr>
 
-    <br /><br />
+          <tr>
+            <th>Difficulty</th>
+            <td>{{ trek.difficulty }}</td>
+          </tr>
 
-    <a href="/browse_treks">Back to Browse Treks</a>
+          <tr>
+            <th>Available Slots</th>
+            <td>{{ trek.available_slots }}</td>
+          </tr>
+
+          <tr>
+            <th>Start Date</th>
+            <td>{{ trek.start_date.strftime("%d-%m-%Y") }}</td>
+          </tr>
+
+          <tr>
+            <th>Status</th>
+            <td>{{ trek.status }}</td>
+          </tr>
+
+          <tr>
+            <th>Progress</th>
+            <td>{{ trek.progress }}</td>
+          </tr>
+
+          <tr>
+            <th>Assigned Staff</th>
+            <td>
+              {% if trek.staff %} {{ trek.staff.name }} {% else %} Not Assigned
+              {% endif %}
+            </td>
+          </tr>
+        </table>
+
+        <br />
+
+        {% if trek.status == "Open" and trek.available_slots > 0 %}
+
+        <a href="/book_trek/{{ trek.id }}" class="btn"> Book This Trek </a>
+
+        {% else %}
+
+        <p><strong>This trek is currently unavailable for booking.</strong></p>
+
+        {% endif %}
+
+        <br /><br />
+
+        <a href="/browse_treks" class="btn"> Back to Browse Treks </a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
   </body>
 </html>

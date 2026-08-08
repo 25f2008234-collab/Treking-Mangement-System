@@ -1,130 +1,89 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Admin Dashboard - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <header>
+      <h1>Saarthi</h1>
 
-        <h1>Saarthi</h1>
-
-        <p>Your Trusted Trek Companion</p>
-
+      <p>Your Trusted Trek Companion</p>
     </header>
 
     <nav>
+      <a href="/admin_dashboard">Dashboard</a>
 
-        <a href="/admin_dashboard">Dashboard</a>
-
-        <a href="/logout">Logout</a>
-
+      <a href="/logout">Logout</a>
     </nav>
 
     <div class="container">
+      <div class="card">
+        <h2>Admin Dashboard</h2>
 
-        <div class="card">
+        <p>Welcome, <strong>{{ session["username"] }}</strong></p>
+      </div>
 
-            <h2>Admin Dashboard</h2>
+      <div class="stats">
+        <div class="stat-card">
+          <h2>{{ total_users }}</h2>
 
-            <p>Welcome, <strong>{{ session["username"] }}</strong></p>
-
+          <p>Total Users</p>
         </div>
 
+        <div class="stat-card">
+          <h2>{{ total_treks }}</h2>
 
-        <div class="stats">
-
-            <div class="stat-card">
-
-                <h2>{{ total_users }}</h2>
-
-                <p>Total Users</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h2>{{ total_treks }}</h2>
-
-                <p>Total Treks</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h2>{{ total_staff }}</h2>
-
-                <p>Total Staff</p>
-
-            </div>
-
-            <div class="stat-card">
-
-                <h2>{{ total_bookings }}</h2>
-
-                <p>Total Bookings</p>
-
-            </div>
-
+          <p>Total Treks</p>
         </div>
 
+        <div class="stat-card">
+          <h2>{{ total_staff }}</h2>
 
-        <div class="card">
-
-            <h2>Management Panel</h2>
-
-            <div class="menu">
-
-                <a href="/treks">
-                    Manage Treks
-                </a>
-
-                <a href="/create_trek">
-                    Add New Trek
-                </a>
-
-                <a href="/staff">
-                    Manage Staff
-                </a>
-
-                <a href="/assign_trek">
-                    Assign Trek
-                </a>
-
-                <a href="/users">
-                    Manage Users
-                </a>
-
-                <a href="/search">
-                    Search
-                </a>
-
-                <a href="/bookings">
-                    Booking Records
-                </a>
-
-            </div>
-
+          <p>Total Staff</p>
         </div>
 
+        <div class="stat-card">
+          <h2>{{ total_bookings }}</h2>
+
+          <p>Total Bookings</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Management Panel</h2>
+
+        <div class="menu">
+          <a href="/treks"> Manage Treks </a>
+
+          <a href="/create_trek"> Add New Trek </a>
+
+          <a href="/staff"> Manage Staff </a>
+
+          <a href="/assign_trek"> Assign Trek </a>
+
+          <a href="/users"> Manage Users </a>
+
+          <a href="/search"> Search </a>
+
+          <a href="/bookings"> Booking Records </a>
+
+          <a href="/approve_staff" class="btn"> Approve Staff </a>
+        </div>
+      </div>
     </div>
 
     <footer>
-
-        <p>© 2026 Saarthi | Trekking Management System</p>
-
+      <p>© 2026 Saarthi | Trekking Management System</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

@@ -1,101 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <header>
+      <h1>Saarthi</h1>
 
-        <h1>Saarthi</h1>
+      <p>Your Trusted Trek Companion</p>
 
-        <p>Your Trusted Trek Companion</p>
-
+      <h3>Your Journey, Our Responsibility</h3>
     </header>
 
     <nav>
+      <a href="/">Home</a>
 
-        <a href="/">Home</a>
+      <a href="/login">Login</a>
 
-        <a href="/login">Login</a>
-
-        <a href="/signup">Sign Up</a>
-
+      <a href="/signup">Sign Up</a>
     </nav>
 
     <div class="container">
+      <div class="welcome-box">
+        <h2>Welcome to Saarthi</h2>
 
-        <div class="welcome-box">
+        <p>
+          Plan your next trekking adventure with ease. Browse exciting treks,
+          book your journey, and manage your trekking activities from one place.
+        </p>
 
-            <h2>Welcome to Saarthi</h2>
+        <div class="button-group">
+          <a href="/login" class="btn">Login</a>
 
-            <p>
-                Plan your next trekking adventure with ease. Browse exciting treks,
-                book your journey, and manage your trekking activities from one place.
-            </p>
+          <a href="/signup" class="btn">Create Account</a>
+        </div>
+      </div>
 
-            <div class="button-group">
+      <div class="feature-section">
+        <div class="feature-card">
+          <h3>Browse Treks</h3>
 
-                <a href="/login" class="btn">Login</a>
-
-                <a href="/signup" class="btn">Create Account</a>
-
-            </div>
-
+          <p>
+            Explore trekking destinations and choose the trek that suits you.
+          </p>
         </div>
 
-        <div class="feature-section">
+        <div class="feature-card">
+          <h3>Easy Booking</h3>
 
-            <div class="feature-card">
-
-                <h3>Browse Treks</h3>
-
-                <p>
-                    Explore trekking destinations and choose the trek that suits you.
-                </p>
-
-            </div>
-
-            <div class="feature-card">
-
-                <h3>Easy Booking</h3>
-
-                <p>
-                    Book your preferred trek quickly and keep track of your bookings.
-                </p>
-
-            </div>
-
-            <div class="feature-card">
-
-                <h3>Manage Activities</h3>
-
-                <p>
-                    Administrators and staff can efficiently organize and manage trekking operations.
-                </p>
-
-            </div>
-
+          <p>
+            Book your preferred trek quickly and keep track of your bookings.
+          </p>
         </div>
 
+        <div class="feature-card">
+          <h3>Manage Activities</h3>
+
+          <p>
+            Administrators and staff can efficiently organize and manage
+            trekking operations.
+          </p>
+        </div>
+      </div>
     </div>
 
     <footer>
-
-        <p>© 2026 Saarthi | Trekking Management System</p>
-
+      <p>© 2026 Saarthi | Trekking Management System</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

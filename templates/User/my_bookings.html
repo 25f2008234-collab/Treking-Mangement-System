@@ -1,35 +1,59 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Bookings</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
 
-    <h1>My Bookings</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <a href="/user">Back to Dashboard</a>
+    <title>My Bookings - Saarthi</title>
 
-    <br><br>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-    {% if bookings %}
+  <body>
+    <header>
+      <h1>Saarthi</h1>
 
-    <table border="1" cellpadding="8">
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-        <tr>
+    <nav>
+      <a href="/user">Dashboard</a>
+
+      <a href="/browse_treks">Browse Treks</a>
+
+      <a href="/search_treks">Search Treks</a>
+
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>My Bookings</h2>
+
+        <p>View all the treks you have booked.</p>
+
+        {% if bookings %}
+
+        <table>
+          <tr>
             <th>Trek Name</th>
             <th>Location</th>
             <th>Duration</th>
             <th>Booking Date</th>
-            <th>Status</th>
-        </tr>
+            <th>Booking Status</th>
+            <th>Payment Status</th>
+            <th>Trek Status</th>
+            <th>Progress</th>
+            <th>Action</th>
+          </tr>
 
-        {% for booking in bookings %}
+          {% for booking in bookings %}
 
-        <tr>
-
+          <tr>
             <td>{{ booking.trek.name }}</td>
 
             <td>{{ booking.trek.location }}</td>
@@ -38,19 +62,80 @@
 
             <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
 
-            <td>{{ booking.trek.status }}</td>
+            <td>
+              {% if booking.booking_status == "Booked" %}
 
-        </tr>
+              <span class="status-open">Booked</span>
 
-        {% endfor %}
+              {% elif booking.booking_status == "Completed" %}
 
-    </table>
+              <span class="status-completed">Completed</span>
 
-    {% else %}
+              {% else %}
 
-    <p>You have not booked any trek yet.</p>
+              <span class="status-closed">Cancelled</span>
 
-    {% endif %}
+              {% endif %}
+            </td>
 
-</body>
+            <td>
+              {% if booking.payment_status == "Paid" %}
+
+              <span class="status-open">Paid</span>
+
+              {% else %}
+
+              <span class="status-closed">Pending</span>
+
+              {% endif %}
+            </td>
+
+            <td>
+              {% if booking.trek.status == "Open" %}
+
+              <span class="status-open">Open</span>
+
+              {% else %}
+
+              <span class="status-closed">Closed</span>
+
+              {% endif %}
+            </td>
+
+            <td>{{ booking.trek.progress }}</td>
+
+            <td>
+              <a
+                href="/cancel_booking/{{ booking.id }}"
+                class="btn btn-danger"
+                onclick="
+                  return confirm(
+                    'Are you sure you want to cancel this booking?',
+                  );
+                "
+              >
+                Cancel Booking
+              </a>
+            </td>
+          </tr>
+
+          {% endfor %}
+        </table>
+
+        {% else %}
+
+        <p>You have not booked any trek yet.</p>
+
+        {% endif %}
+
+        <br />
+
+        <a href="/user" class="btn">Back to Dashboard</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

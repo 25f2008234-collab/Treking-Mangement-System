@@ -1,33 +1,78 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <h1>User Dashboard</h1>
-    <h3>Welcome, {{ session["username"] }}</h3>
-    <hr>
-    <h2>Menu</h2>
-    <p>
-        <a href="/browse_treks">Browse Treks</a>
-    </p>
-    <p>
-        <a href="/search_treks">Search Treks</a>
-    </p>
-    <p>
-        <a href="/my_bookings">My Bookings</a>
-    </p>
-    <p>
-        <a href="/history">Booking History</a>
-    </p>
-    <p>
-        <a href="/edit_profile/{{ session['user_id'] }}">Edit Profile</a>
-    </p>
-    <p>
-        <a href="/logout">Logout</a>
-    </p>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>User Dashboard - Saarthi</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>Saarthi</h1>
+
+      <p>Your Trusted Trek Companion</p>
+    </header>
+
+    <nav>
+      <a href="/user">Dashboard</a>
+
+      <a href="/browse_treks">Browse Treks</a>
+
+      <a href="/search_treks">Search Treks</a>
+
+      <a href="/my_bookings">My Bookings</a>
+
+      <a href="/logout">Logout</a>
+    </nav>
+
+    <div class="container">
+      <div class="card">
+        <h2>User Dashboard</h2>
+
+        <p>Welcome, <strong>{{ session["username"] }}</strong></p>
+
+        <p>
+          Explore available treks, manage your bookings and keep track of your
+          trekking journey.
+        </p>
+      </div>
+
+      <div class="card">
+        <h2>Quick Menu</h2>
+
+        <p>
+          <a href="/browse_treks" class="btn"> Browse Treks </a>
+        </p>
+
+        <p>
+          <a href="/search_treks" class="btn"> Search Treks </a>
+        </p>
+
+        <p>
+          <a href="/my_bookings" class="btn"> My Bookings </a>
+        </p>
+
+        <p>
+          <a href="/history" class="btn"> Booking History </a>
+        </p>
+
+        <p>
+          <a href="/edit_profile/{{ session['user_id'] }}" class="btn">
+            Edit Profile
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

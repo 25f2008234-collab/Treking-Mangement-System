@@ -1,102 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Staff Dashboard - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>Saarthi</h1>
 
-<body>
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-<header>
+    <nav>
+      <a href="/staff_dashboard">Dashboard</a>
 
-    <h1>Saarthi</h1>
+      <a href="/my_treks">My Treks</a>
 
-    <p>Your Trusted Trek Companion</p>
+      <a href="/participants">Participants</a>
 
-</header>
+      <a href="/logout">Logout</a>
+    </nav>
 
-<nav>
-
-    <a href="/staff_dashboard">Dashboard</a>
-
-    <a href="/my_treks">My Treks</a>
-
-    <a href="/participants">Participants</a>
-
-    <a href="/logout">Logout</a>
-
-</nav>
-
-<div class="container">
-
-    <div class="card">
-
+    <div class="container">
+      <div class="card">
         <h2>Staff Dashboard</h2>
 
         <p>Welcome, <strong>{{ staff.name }}</strong></p>
+      </div>
 
-    </div>
-
-    <div class="card">
-
+      <div class="card">
         <h2>Overview</h2>
 
         <table>
+          <tr>
+            <th>Total Assigned Treks</th>
 
-            <tr>
+            <th>Total Participants</th>
+          </tr>
 
-                <th>Total Assigned Treks</th>
+          <tr>
+            <td>{{ total_treks }}</td>
 
-                <th>Total Participants</th>
-
-            </tr>
-
-            <tr>
-
-                <td>{{ total_treks }}</td>
-
-                <td>{{ total_participants }}</td>
-
-            </tr>
-
+            <td>{{ total_participants }}</td>
+          </tr>
         </table>
+      </div>
 
-    </div>
-
-    <div class="card">
-
+      <div class="card">
         <h2>Quick Menu</h2>
 
         <p>
-            <a href="/my_treks" class="btn">My Treks</a>
+          <a href="/my_treks" class="btn">My Treks</a>
         </p>
 
         <p>
-            <a href="/participants" class="btn">Participants</a>
+          <a href="/participants" class="btn">Participants</a>
         </p>
 
         <p>
-            <a href="/edit_staff_profile/{{ staff.id }}" class="btn">Edit Profile</a>
+          <a href="/edit_staff_profile/{{ staff.id }}" class="btn"
+            >Edit Profile</a
+          >
         </p>
-
+      </div>
     </div>
 
-</div>
-
-<footer>
-
-    <p>© 2026 Saarthi | Trekking Management System</p>
-
-</footer>
-
-</body>
-
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

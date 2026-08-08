@@ -1,99 +1,110 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Create Trek - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <header>
+      <h1>Saarthi</h1>
 
-        <h1>Saarthi</h1>
-
-        <p>Your Trusted Trek Companion</p>
-
+      <p>Your Trusted Trek Companion</p>
     </header>
 
     <nav>
+      <a href="/admin_dashboard">Dashboard</a>
 
-        <a href="/admin_dashboard">Dashboard</a>
+      <a href="/treks">Manage Treks</a>
 
-        <a href="/treks">Manage Treks</a>
-
-        <a href="/logout">Logout</a>
-
+      <a href="/logout">Logout</a>
     </nav>
 
     <div class="container">
+      <div class="card">
+        <h2>Create New Trek</h2>
 
-        <div class="card">
+        <p>Enter the details below to add a new trek.</p>
 
-            <h2>Create New Trek</h2>
+        <form action="/create_trek" method="POST">
+          <label>Trek Name</label>
 
-            <p>Enter the details below to add a new trek.</p>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter trek name"
+            required
+          />
 
-            <form action="/create_trek" method="POST">
+          <label>Location</label>
 
-                <label>Trek Name</label>
+          <input
+            type="text"
+            name="location"
+            placeholder="Enter trek location"
+            required
+          />
 
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter trek name"
-                    required>
+          <label>Description</label>
 
-                <label>Location</label>
+          <textarea
+            name="description"
+            placeholder="Write a short description"
+            required
+          ></textarea>
 
-                <input
-                    type="text"
-                    name="location"
-                    placeholder="Enter trek location"
-                    required>
+          <label>Duration (Days)</label>
 
-                <label>Description</label>
+          <input
+            type="number"
+            name="duration"
+            placeholder="Enter duration"
+            required
+          />
 
-                <textarea
-                    name="description"
-                    placeholder="Write a short description"
-                    required></textarea>
+          <br />
+          <label>Difficulty</label>
 
-                <label>Duration (Days)</label>
+          <select name="difficulty" required>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+          </select>
+          <br />
 
-                <input
-                    type="number"
-                    name="duration"
-                    placeholder="Enter duration"
-                    required>
+          <label>Start Date</label>
 
-                <br>
+          <input type="date" name="start_date" required />
+          <br />
+          <label>Available Slots</label>
 
-                <input type="submit" value="Create Trek">
+          <input
+            type="number"
+            name="available_slots"
+            value="20"
+            min="1"
+            required
+          />
 
-            </form>
+          <input type="submit" value="Create Trek" />
+        </form>
 
-            <br>
+        <br />
 
-            <a href="/treks" class="btn">Back to Manage Treks</a>
-
-        </div>
-
+        <a href="/treks" class="btn">Back to Manage Treks</a>
+      </div>
     </div>
 
     <footer>
-
-        <p>© 2026 Saarthi | Trekking Management System</p>
-
+      <p>© 2026 Saarthi | Trekking Management System</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

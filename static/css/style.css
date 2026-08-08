@@ -1,19 +1,8 @@
-/* ===================================================
-   SAARTHI - Trekking Management System
-   Part 1
-   =================================================== */
-
-
-/* ---------- Reset ---------- */
-
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
 }
-
-
-/* ---------- Body ---------- */
 
 body{
 
@@ -28,7 +17,6 @@ body{
 }
 
 
-/* ---------- Header ---------- */
 
 header{
 
@@ -56,8 +44,6 @@ header p{
 
 }
 
-
-/* ---------- Navigation ---------- */
 
 nav{
 
@@ -90,7 +76,6 @@ nav a:hover{
 }
 
 
-/* ---------- Main Container ---------- */
 
 .container{
 
@@ -103,7 +88,6 @@ nav a:hover{
 }
 
 
-/* ---------- White Card ---------- */
 
 .card{
 
@@ -120,7 +104,6 @@ nav a:hover{
 }
 
 
-/* ---------- Welcome Box ---------- */
 
 .welcome-box{
 
@@ -157,7 +140,6 @@ nav a:hover{
 }
 
 
-/* ---------- Buttons ---------- */
 
 .button-group{
 
@@ -194,9 +176,6 @@ nav a:hover{
     background:#256f46;
 
 }
-
-
-/* ---------- Feature Section ---------- */
 
 .feature-section{
 
@@ -237,7 +216,6 @@ nav a:hover{
 }
 
 
-/* ---------- Forms ---------- */
 
 form{
 
@@ -280,6 +258,16 @@ textarea{
 
 }
 
+input[type="date"]{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:5px;
+    margin-bottom:15px;
+    font-size:15px;
+    box-sizing:border-box;
+}
+
 textarea{
 
     resize:vertical;
@@ -315,7 +303,6 @@ button:hover{
 }
 
 
-/* ---------- Tables ---------- */
 
 table{
 
@@ -356,7 +343,6 @@ table tr:nth-child(even){
 }
 
 
-/* ---------- Links inside tables ---------- */
 
 table a{
 
@@ -373,13 +359,7 @@ table a:hover{
     text-decoration:underline;
 
 }
-/* ===================================================
-   SAARTHI - Trekking Management System
-   Part 2
-   =================================================== */
 
-
-/* ---------- Dashboard Statistics ---------- */
 
 .stats{
 
@@ -430,7 +410,6 @@ table a:hover{
 }
 
 
-/* ---------- Dashboard Menu ---------- */
 
 .menu{
 
@@ -479,7 +458,6 @@ table a:hover{
 }
 
 
-/* ---------- Headings ---------- */
 
 h1{
 
@@ -510,8 +488,6 @@ hr{
 }
 
 
-/* ---------- Paragraph ---------- */
-
 p{
 
     margin-bottom:12px;
@@ -519,7 +495,6 @@ p{
 }
 
 
-/* ---------- Lists ---------- */
 
 ul{
 
@@ -552,7 +527,6 @@ ul li a:hover{
 }
 
 
-/* ---------- Normal Links ---------- */
 
 a{
 
@@ -567,7 +541,6 @@ a:hover{
 }
 
 
-/* ---------- Search Box ---------- */
 
 .search-box{
 
@@ -586,7 +559,6 @@ a:hover{
 }
 
 
-/* ---------- Messages ---------- */
 
 .success{
 
@@ -617,7 +589,6 @@ a:hover{
 }
 
 
-/* ---------- Footer ---------- */
 
 footer{
 
@@ -634,7 +605,6 @@ footer{
 }
 
 
-/* ---------- Responsive ---------- */
 
 @media(max-width:768px){
 
@@ -679,7 +649,6 @@ footer{
 }
 
 
-/* ---------- Utility Classes ---------- */
 
 .text-center{
 
@@ -712,12 +681,46 @@ footer{
 }
 
 
-/* ---------- Image ---------- */
-
 img{
 
     max-width:100%;
 
     border-radius:8px;
 
+}
+
+.status-open{
+    background:#d4edda;
+    color:#155724;
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.status-completed{
+    background:#d1ecf1;
+    color:#0c5460;
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.status-closed{
+    background:#f8d7da;
+    color:#721c24;
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.status-pending{
+    background:#fff3cd;
+    color:#856404;
+    padding:5px 10px;
+    border-radius:15px;
+    font-size:14px;
+    font-weight:bold;
 }

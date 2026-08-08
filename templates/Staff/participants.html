@@ -1,42 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Participants - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>Saarthi</h1>
 
-<body>
+      <p>Your Trusted Trek Companion</p>
+    </header>
 
-<header>
+    <nav>
+      <a href="/staff_dashboard">Dashboard</a>
 
-    <h1>Saarthi</h1>
+      <a href="/my_treks">My Treks</a>
 
-    <p>Your Trusted Trek Companion</p>
+      <a href="/logout">Logout</a>
+    </nav>
 
-</header>
-
-<nav>
-
-    <a href="/staff_dashboard">Dashboard</a>
-
-    <a href="/my_treks">My Treks</a>
-
-    <a href="/logout">Logout</a>
-
-</nav>
-
-<div class="container">
-
-    <div class="card">
-
+    <div class="container">
+      <div class="card">
         <h2>Participants</h2>
 
         <p>Users who have booked your assigned treks.</p>
@@ -44,35 +37,29 @@
         {% if participant_list %}
 
         <table>
+          <tr>
+            <th>Trek</th>
 
-            <tr>
+            <th>Participant</th>
 
-                <th>Trek</th>
+            <th>Email</th>
 
-                <th>Participant</th>
+            <th>Booking Date</th>
+          </tr>
 
-                <th>Email</th>
+          {% for p in participant_list %}
 
-                <th>Booking Date</th>
+          <tr>
+            <td>{{ p.trek_name }}</td>
 
-            </tr>
+            <td>{{ p.username }}</td>
 
-            {% for p in participant_list %}
+            <td>{{ p.email }}</td>
 
-            <tr>
+            <td>{{ p.booking_date.strftime("%d-%m-%Y") }}</td>
+          </tr>
 
-                <td>{{ p.trek_name }}</td>
-
-                <td>{{ p.username }}</td>
-
-                <td>{{ p.email }}</td>
-
-                <td>{{ p.booking_date.strftime("%d-%m-%Y") }}</td>
-
-            </tr>
-
-            {% endfor %}
-
+          {% endfor %}
         </table>
 
         {% else %}
@@ -81,24 +68,14 @@
 
         {% endif %}
 
-        <br>
+        <br />
 
-        <a href="/staff_dashboard" class="btn">
-
-            Back to Dashboard
-
-        </a>
-
+        <a href="/staff_dashboard" class="btn"> Back to Dashboard </a>
+      </div>
     </div>
 
-</div>
-
-<footer>
-
-    <p>© 2026 Saarthi | Trekking Management System</p>
-
-</footer>
-
-</body>
-
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

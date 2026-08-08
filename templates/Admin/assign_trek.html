@@ -1,104 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Assign Trek - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <header>
+      <h1>Saarthi</h1>
 
-        <h1>Saarthi</h1>
-
-        <p>Your Trusted Trek Companion</p>
-
+      <p>Your Trusted Trek Companion</p>
     </header>
 
     <nav>
+      <a href="/admin_dashboard">Dashboard</a>
 
-        <a href="/admin_dashboard">Dashboard</a>
+      <a href="/staff">Manage Staff</a>
 
-        <a href="/staff">Manage Staff</a>
+      <a href="/treks">Manage Treks</a>
 
-        <a href="/treks">Manage Treks</a>
-
-        <a href="/logout">Logout</a>
-
+      <a href="/logout">Logout</a>
     </nav>
 
     <div class="container">
+      <div class="card">
+        <h2>Assign Trek to Staff</h2>
 
-        <div class="card">
+        <p>Select a staff member and assign a trek.</p>
 
-            <h2>Assign Trek to Staff</h2>
+        <form method="POST">
+          <label>Select Staff</label>
 
-            <p>Select a staff member and assign a trek.</p>
+          <select name="staff_id" required>
+            {% for staff in staff_members %}
 
-            <form method="POST">
+            <option value="{{ staff.id }}">{{ staff.name }}</option>
 
-                <label>Select Staff</label>
+            {% endfor %}
+          </select>
 
-                <select name="staff_id" required>
+          <label>Select Trek</label>
 
-                    {% for staff in staff_members %}
+          <select name="trek_id" required>
+            {% for trek in treks %}
 
-                    <option value="{{ staff.id }}">
+            <option value="{{ trek.id }}">{{ trek.name }}</option>
 
-                        {{ staff.name }}
+            {% endfor %}
+          </select>
 
-                    </option>
+          <input type="submit" value="Assign Trek" />
+        </form>
 
-                    {% endfor %}
+        <br />
 
-                </select>
-
-                <label>Select Trek</label>
-
-                <select name="trek_id" required>
-
-                    {% for trek in treks %}
-
-                    <option value="{{ trek.id }}">
-
-                        {{ trek.name }}
-
-                    </option>
-
-                    {% endfor %}
-
-                </select>
-
-                <input type="submit" value="Assign Trek">
-
-            </form>
-
-            <br>
-
-            <a href="/admin_dashboard" class="btn">
-
-                Back to Dashboard
-
-            </a>
-
-        </div>
-
+        <a href="/admin_dashboard" class="btn"> Back to Dashboard </a>
+      </div>
     </div>
 
     <footer>
-
-        <p>© 2026 Saarthi | Trekking Management System</p>
-
+      <p>© 2026 Saarthi | Trekking Management System</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

@@ -1,134 +1,106 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Manage Treks - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <header>
+      <h1>Saarthi</h1>
 
-        <h1>Saarthi</h1>
-
-        <p>Your Trusted Trek Companion</p>
-
+      <p>Your Trusted Trek Companion</p>
     </header>
 
     <nav>
+      <a href="/admin_dashboard">Dashboard</a>
 
-        <a href="/admin_dashboard">Dashboard</a>
+      <a href="/create_trek">Add Trek</a>
 
-        <a href="/create_trek">Add Trek</a>
-
-        <a href="/logout">Logout</a>
-
+      <a href="/logout">Logout</a>
     </nav>
 
     <div class="container">
+      <div class="card">
+        <h2>Manage Treks</h2>
 
-        <div class="card">
+        <p>View, update and manage all trekking records.</p>
 
-            <h2>Manage Treks</h2>
+        <br />
 
-            <p>
-                View, update and manage all trekking records.
-            </p>
+        <a href="/create_trek" class="btn">+ Add New Trek</a>
 
-            <br>
+        <table>
+          <tr>
+            <th>ID</th>
 
-            <a href="/create_trek" class="btn">+ Add New Trek</a>
+            <th>Name</th>
 
-            <table>
+            <th>Location</th>
 
-                <tr>
+            <th>Duration</th>
 
-                    <th>ID</th>
+            <th>Staff</th>
 
-                    <th>Name</th>
+            <th>Status</th>
 
-                    <th>Location</th>
+            <th>Progress</th>
 
-                    <th>Duration</th>
+            <th>Action</th>
 
-                    <th>Staff</th>
+            <th>Start Date</th>
+          </tr>
 
-                    <th>Status</th>
+          {% for trek in treks %}
 
-                    <th>Progress</th>
+          <tr>
+            <td>{{ trek.id }}</td>
 
-                    <th>Action</th>
+            <td>{{ trek.name }}</td>
 
-                </tr>
+            <td>{{ trek.location }}</td>
 
-                {% for trek in treks %}
+            <td>{{ trek.duration }} Days</td>
 
-                <tr>
+            <td>
+              {% if trek.staff %} {{ trek.staff.name }} {% else %} Not Assigned
+              {% endif %}
+            </td>
 
-                    <td>{{ trek.id }}</td>
+            <td>{{ trek.status }}</td>
 
-                    <td>{{ trek.name }}</td>
+            <td>{{ trek.progress }}</td>
 
-                    <td>{{ trek.location }}</td>
+            <td>{{ trek.start_date.strftime("%d-%m-%Y") }}</td>
 
-                    <td>{{ trek.duration }} Days</td>
+            <td>
+              <a href="/update_trek/{{ trek.id }}">Edit</a>
 
-                    <td>
+              |
 
-                        {% if trek.staff %}
+              <a href="/remove_trek/{{ trek.id }}">Delete</a>
+            </td>
+          </tr>
 
-                            {{ trek.staff.name }}
+          {% endfor %}
+        </table>
 
-                        {% else %}
+        <br />
 
-                            Not Assigned
-
-                        {% endif %}
-
-                    </td>
-
-                    <td>{{ trek.status }}</td>
-
-                    <td>{{ trek.progress }}</td>
-
-                    <td>
-
-                        <a href="/update_trek/{{ trek.id }}">Edit</a>
-
-                        |
-
-                        <a href="/remove_trek/{{ trek.id }}">Delete</a>
-
-                    </td>
-
-                </tr>
-
-                {% endfor %}
-
-            </table>
-
-            <br>
-
-            <a href="/admin_dashboard" class="btn">Back to Dashboard</a>
-
-        </div>
-
+        <a href="/admin_dashboard" class="btn">Back to Dashboard</a>
+      </div>
     </div>
 
     <footer>
-
-        <p>© 2026 Saarthi | Trekking Management System</p>
-
+      <p>© 2026 Saarthi | Trekking Management System</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

@@ -1,100 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Booking Records - Saarthi</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
+  <body>
+    <header>
+      <h1>Saarthi</h1>
+      <p>Admin Panel</p>
+    </header>
 
-<body>
+    <nav>
+      <a href="/admin_dashboard">Dashboard</a>
+      <a href="/treks">Treks</a>
+      <a href="/staff">Staff</a>
+      <a href="/users">Users</a>
+      <a href="/bookings">Bookings</a>
+      <a href="/logout">Logout</a>
+    </nav>
 
-<header>
+    <div class="container">
+      <div class="card">
+        <h2>Booking Records</h2>
 
-    <h1>Saarthi</h1>
+        <p>View all trek bookings.</p>
 
-    <p>Your Trusted Trek Companion</p>
+        {% if bookings %}
 
-</header>
+        <table>
+          <tr>
+            <th>User</th>
+            <th>Trek</th>
+            <th>Booking Date</th>
+            <th>Booking Status</th>
+            <th>Payment Status</th>
+          </tr>
 
-<nav>
+          {% for booking in bookings %}
 
-    <a href="/admin_dashboard">Dashboard</a>
+          <tr>
+            <td>{{ booking.user.username }}</td>
 
-    <a href="/treks">Treks</a>
+            <td>{{ booking.trek.name }}</td>
 
-    <a href="/staff">Staff</a>
+            <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
 
-    <a href="/users">Users</a>
+            <td>{{ booking.booking_status }}</td>
 
-    <a href="/logout">Logout</a>
+            <td>{{ booking.payment_status }}</td>
+          </tr>
 
-</nav>
+          {% endfor %}
+        </table>
 
-<div class="container">
+        {% else %}
 
-<div class="card">
+        <p>No bookings found.</p>
 
-<h2>Booking Records</h2>
+        {% endif %}
 
-<p>View all trek bookings made by users.</p>
+        <br />
 
-<table>
+        <a href="/admin_dashboard" class="btn">Back to Dashboard</a>
+      </div>
+    </div>
 
-<tr>
-
-<th>Booking ID</th>
-
-<th>User</th>
-
-<th>Trek</th>
-
-<th>Booking Date</th>
-
-</tr>
-
-{% for booking in bookings %}
-
-<tr>
-
-<td>{{ booking.id }}</td>
-
-<td>{{ booking.user.username }}</td>
-
-<td>{{ booking.trek.name }}</td>
-
-<td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
-
-</tr>
-
-{% endfor %}
-
-</table>
-
-<br>
-
-<a href="/admin_dashboard" class="btn">
-
-Back to Dashboard
-
-</a>
-
-</div>
-
-</div>
-
-<footer>
-
-<p>© 2026 Saarthi | Trekking Management System</p>
-
-</footer>
-
-</body>
-
+    <footer>
+      <p>© 2026 Saarthi | Trekking Management System</p>
+    </footer>
+  </body>
 </html>

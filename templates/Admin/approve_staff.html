@@ -2,10 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Manage Staff - Saarthi</title>
+    <title>Approve Staff - Saarthi</title>
 
     <link
       rel="stylesheet"
@@ -16,65 +14,32 @@
   <body>
     <header>
       <h1>Saarthi</h1>
-
-      <p>Your Trusted Trek Companion</p>
+      <p>Admin Panel</p>
     </header>
 
     <nav>
       <a href="/admin_dashboard">Dashboard</a>
-
-      <a href="/treks">Treks</a>
-
+      <a href="/staff">Staff</a>
       <a href="/logout">Logout</a>
     </nav>
 
     <div class="container">
       <div class="card">
-        <h2>Staff Management</h2>
+        <h2>Approve Staff Members</h2>
 
-        <p>Add new staff members and manage existing staff.</p>
-
-        <form method="POST">
-          <label>Name</label>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter Staff Name"
-            required
-          />
-
-          <label>Role</label>
-
-          <select name="role" required>
-            <option value="staff">Staff</option>
-          </select>
-
-          <input type="submit" value="Add Staff" />
-        </form>
-      </div>
-
-      <div class="card">
-        <h2>Staff List</h2>
+        {% if staff_members %}
 
         <table>
           <tr>
-            <th>ID</th>
-
             <th>Name</th>
-
             <th>Role</th>
-
             <th>Status</th>
-
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
 
           {% for staff in staff_members %}
 
           <tr>
-            <td>{{ staff.id }}</td>
-
             <td>{{ staff.name }}</td>
 
             <td>{{ staff.role }}</td>
@@ -82,22 +47,26 @@
             <td>{{ staff.status }}</td>
 
             <td>
-              <a href="/remove_staff/{{ staff.id }}">Remove</a>
+              {% if staff.status == "Pending" %}
 
-              | {% if staff.status=="Active" %}
+              <form method="POST">
+                <input type="hidden" name="staff_id" value="{{ staff.id }}" />
 
-              <a href="/block_staff/{{ staff.id }}">Block</a>
+                <input type="submit" value="Approve" class="btn" />
+              </form>
 
-              {% else %}
-
-              <a href="/unblock_staff/{{ staff.id }}">Unblock</a>
-
-              {% endif %}
+              {% else %} Active {% endif %}
             </td>
           </tr>
 
           {% endfor %}
         </table>
+
+        {% else %}
+
+        <p>No staff members found.</p>
+
+        {% endif %}
 
         <br />
 
