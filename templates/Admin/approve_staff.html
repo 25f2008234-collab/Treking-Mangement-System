@@ -2,24 +2,46 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Approve Staff - Saarthi</title>
 
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
+
+    <style>
+      .action-buttons {
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      .action-buttons form {
+        display: inline-block;
+        margin: 0 5px;
+      }
+
+      .action-buttons button {
+        padding: 8px 12px;
+        margin: 0;
+      }
+    </style>
   </head>
 
   <body>
     <header>
       <h1>Saarthi</h1>
+
       <p>Admin Panel</p>
     </header>
 
     <nav>
       <a href="/admin_dashboard">Dashboard</a>
+
       <a href="/staff">Staff</a>
+
       <a href="/logout">Logout</a>
     </nav>
 
@@ -32,8 +54,11 @@
         <table>
           <tr>
             <th>Name</th>
+
             <th>Role</th>
+
             <th>Status</th>
+
             <th>Action</th>
           </tr>
 
@@ -44,18 +69,70 @@
 
             <td>{{ staff.role }}</td>
 
-            <td>{{ staff.status }}</td>
-
             <td>
-              {% if staff.status == "Pending" %}
+              {% if staff.status|lower == "pending" %}
 
-              <form method="POST">
+              <span class="status pending"> Pending </span>
+
+              {% elif staff.status|lower == "active" %}
+
+              <span class="status active"> Active </span>
+
+              {% elif staff.status|lower == "blocked" %}
+
+              <span class="status blocked"> Blocked </span>
+
+              {% elif staff.status|lower == "rejected" %}
+
+              <span class="status blocked"> Rejected </span>
+
+              {% else %} {{ staff.status }} {% endif %}
+            </td>
+
+            <td class="action-buttons">
+              {% if staff.status|lower == "pending" %}
+
+              <!-- Approve button -->
+
+              <form method="POST" action="/approve_staff">
                 <input type="hidden" name="staff_id" value="{{ staff.id }}" />
 
-                <input type="submit" value="Approve" class="btn" />
+                <input type="hidden" name="action" value="approve" />
+
+                <button type="submit">Approve</button>
               </form>
 
-              {% else %} Active {% endif %}
+              <!-- Reject button -->
+
+              <form method="POST" action="/approve_staff">
+                <input type="hidden" name="staff_id" value="{{ staff.id }}" />
+
+                <input type="hidden" name="action" value="reject" />
+
+                <button type="submit">Reject</button>
+              </form>
+
+              {% elif staff.status|lower == "active" %}
+
+              <a href="/block_staff/{{ staff.id }}"> Block </a>
+
+              {% elif staff.status|lower == "blocked" %}
+
+              <a href="/unblock_staff/{{ staff.id }}"> Unblock </a>
+
+              {% elif staff.status|lower == "rejected" %}
+
+              <!-- Allow rejected staff to be approved again -->
+
+              <form method="POST" action="/approve_staff">
+                <input type="hidden" name="staff_id" value="{{ staff.id }}" />
+
+                <input type="hidden" name="action" value="approve" />
+
+                <button type="submit">Approve</button>
+              </form>
+
+              {% endif %}
             </td>
           </tr>
 
@@ -74,8 +151,6 @@
       </div>
     </div>
 
-    <footer>
-      <p>© 2026 Saarthi | Trekking Management System</p>
-    </footer>
+    <footer>© 2026 Saarthi | Trekking Management System</footer>
   </body>
 </html>

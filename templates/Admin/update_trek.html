@@ -67,15 +67,15 @@
           <label>Difficulty</label>
 
           <select name="difficulty" required>
-            <option {% if trek.difficulty="" ="Easy" %}selected{% endif %}>
+            <option {% if trek.difficulty =="Easy" %}selected{% endif %}>
               Easy
             </option>
 
-            <option {% if trek.difficulty="" ="Moderate" %}selected{% endif %}>
+            <option {% if trek.difficulty =="Moderate" %}selected{% endif %}>
               Moderate
             </option>
 
-            <option {% if trek.difficulty="" ="Hard" %}selected{% endif %}>
+            <option {% if trek.difficulty =="Hard" %}selected{% endif %}>
               Hard
             </option>
           </select>
@@ -88,6 +88,9 @@
             value="{{ trek.start_date }}"
             required
           />
+
+          <label>End Date</label>
+          <input type="date" name="end_date" value="{{ trek.end_date }}">
 
           <label>Available Slots</label>
 

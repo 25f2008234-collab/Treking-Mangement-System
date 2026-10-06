@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trek Change Requests - Saarthi</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>Saarthi</h1>
+
+    <p>Admin Panel</p>
+
+</header>
+
+
+<nav>
+
+    <a href="/admin_dashboard">Dashboard</a>
+
+    <a href="/staff">Staff</a>
+
+    <a href="/treks">Treks</a>
+
+    <a href="/logout">Logout</a>
+
+</nav>
+
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Trek Change Requests</h2>
+
+        <p>
+            Staff requests waiting for Admin approval.
+        </p>
+
+
+        {% if requests %}
+
+        <table>
+
+            <tr>
+
+                <th>Staff</th>
+
+                <th>Trek</th>
+
+                <th>Change</th>
+
+                <th>Requested Value</th>
+
+                <th>Action</th>
+
+            </tr>
+
+
+            {% for request in requests %}
+
+            <tr>
+
+                <td>
+                    {{ request.staff.name }}
+                </td>
+
+
+                <td>
+                    {{ request.trek.name }}
+                </td>
+
+
+                <td>
+                    {{ request.change_type }}
+                </td>
+
+
+                <td>
+                    {{ request.requested_value }}
+                </td>
+
+
+                <td>
+
+                    <a href="/approve_trek_change/{{ request.id }}"
+                       class="btn">
+
+                        Approve
+
+                    </a>
+
+
+                    <a href="/reject_trek_change/{{ request.id }}"
+                       class="btn btn-danger">
+
+                        Reject
+
+                    </a>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        {% else %}
+
+        <p>
+            No pending trek change requests.
+        </p>
+
+        {% endif %}
+
+
+        <br>
+
+
+        <a href="/admin_dashboard" class="btn">
+
+            Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    <p>
+        © 2026 Saarthi | Trekking Management System
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

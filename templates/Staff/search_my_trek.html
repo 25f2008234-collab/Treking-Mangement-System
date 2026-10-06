@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search My Treks - Saarthi</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<header>
+    <h1>Saarthi</h1>
+    <p>Your Trusted Trek Companion</p>
+</header>
+
+<nav>
+    <a href="/staff_dashboard">Dashboard</a>
+    <a href="/my_treks">My Treks</a>
+    <a href="/participants">Participants</a>
+    <a href="/logout">Logout</a>
+</nav>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>Search My Treks</h2>
+
+        <form method="POST">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search trek"
+            >
+
+            <button type="submit">Search</button>
+
+        </form>
+
+    </div>
+
+    <div class="card">
+
+        <h2>My Treks</h2>
+
+        {% for trek in treks %}
+
+        <div>
+            <h3>{{ trek.name }}</h3>
+
+            <p>Location: {{ trek.location }}</p>
+
+            <p>Difficulty: {{ trek.difficulty }}</p>
+
+            <p>Status: {{ trek.status }}</p>
+        </div>
+
+        <hr>
+
+        {% else %}
+
+        <p>No treks found.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<footer>
+    <p>© 2026 Saarthi | Trekking Management System</p>
+</footer>
+
+</body>
+</html>

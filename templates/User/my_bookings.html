@@ -41,13 +41,21 @@
         <table>
           <tr>
             <th>Trek Name</th>
+
             <th>Location</th>
+
             <th>Duration</th>
+
             <th>Booking Date</th>
+
             <th>Booking Status</th>
+
             <th>Payment Status</th>
+
             <th>Trek Status</th>
+
             <th>Progress</th>
+
             <th>Action</th>
           </tr>
 
@@ -62,49 +70,64 @@
 
             <td>{{ booking.booking_date.strftime("%d-%m-%Y") }}</td>
 
+
             <td>
               {% if booking.booking_status == "Booked" %}
 
-              <span class="status-open">Booked</span>
+              <span class="status-open"> Booked </span>
 
               {% elif booking.booking_status == "Completed" %}
 
-              <span class="status-completed">Completed</span>
+              <span class="status-completed"> Completed </span>
 
-              {% else %}
+              {% elif booking.booking_status == "Cancelled" %}
 
-              <span class="status-closed">Cancelled</span>
+              <span class="status-closed"> Cancelled </span>
 
-              {% endif %}
+              {% else %} {{ booking.booking_status }} {% endif %}
             </td>
+
+            <!-- Payment Status -->
 
             <td>
               {% if booking.payment_status == "Paid" %}
 
-              <span class="status-open">Paid</span>
+              <span class="status-open"> Paid </span>
 
               {% else %}
 
-              <span class="status-closed">Pending</span>
+              <span class="status-closed"> Pending </span>
 
               {% endif %}
             </td>
+
+            <!-- Trek Status -->
 
             <td>
               {% if booking.trek.status == "Open" %}
 
-              <span class="status-open">Open</span>
+              <span class="status-open"> Open </span>
+
+              {% elif booking.trek.status == "Completed" %}
+
+              <span class="status-completed"> Completed </span>
 
               {% else %}
 
-              <span class="status-closed">Closed</span>
+              <span class="status-closed"> {{ booking.trek.status }} </span>
 
               {% endif %}
             </td>
 
+            <!-- Trek Progress -->
+
             <td>{{ booking.trek.progress }}</td>
 
+            <!-- Action -->
+
             <td>
+              {% if booking.booking_status == "Booked" %}
+
               <a
                 href="/cancel_booking/{{ booking.id }}"
                 class="btn btn-danger"
@@ -116,6 +139,16 @@
               >
                 Cancel Booking
               </a>
+
+              {% elif booking.booking_status == "Cancelled" %}
+
+              <span> Cancelled </span>
+
+              {% elif booking.booking_status == "Completed" %}
+
+              <span> Completed </span>
+
+              {% endif %}
             </td>
           </tr>
 
@@ -130,7 +163,7 @@
 
         <br />
 
-        <a href="/user" class="btn">Back to Dashboard</a>
+        <a href="/user" class="btn"> Back to Dashboard </a>
       </div>
     </div>
 

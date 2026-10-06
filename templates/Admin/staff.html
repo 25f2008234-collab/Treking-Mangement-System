@@ -32,30 +32,13 @@
       <div class="card">
         <h2>Staff Management</h2>
 
-        <p>Add new staff members and manage existing staff.</p>
-
-        <form method="POST">
-          <label>Name</label>
-
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter Staff Name"
-            required
-          />
-
-          <label>Role</label>
-
-          <select name="role" required>
-            <option value="staff">Staff</option>
-          </select>
-
-          <input type="submit" value="Add Staff" />
-        </form>
+        <p>Manage registered staff members and their status.</p>
       </div>
 
       <div class="card">
         <h2>Staff List</h2>
+
+        {% if staff_members %}
 
         <table>
           <tr>
@@ -79,18 +62,42 @@
 
             <td>{{ staff.role }}</td>
 
-            <td>{{ staff.status }}</td>
+            <td>
+              {% if staff.status|lower == "active" %}
+
+              <span class="status active"> Active </span>
+
+              {% elif staff.status|lower == "pending" %}
+
+              <span class="status pending"> Pending </span>
+
+              {% elif staff.status|lower == "blocked" %}
+
+              <span class="status blocked"> Blocked </span>
+
+              {% elif staff.status|lower == "rejected" %}
+
+              <span class="status blocked"> Rejected </span>
+
+              {% else %} {{ staff.status }} {% endif %}
+            </td>
 
             <td>
-              <a href="/remove_staff/{{ staff.id }}">Remove</a>
+              {% if staff.status|lower == "active" %}
 
-              | {% if staff.status=="Active" %}
+              <a href="/block_staff/{{ staff.id }}"> Block </a>
 
-              <a href="/block_staff/{{ staff.id }}">Block</a>
+              {% elif staff.status|lower == "blocked" %}
 
-              {% else %}
+              <a href="/unblock_staff/{{ staff.id }}"> Unblock </a>
 
-              <a href="/unblock_staff/{{ staff.id }}">Unblock</a>
+              {% elif staff.status|lower == "pending" %}
+
+              <a href="/approve_staff"> Approve </a>
+
+              {% elif staff.status|lower == "rejected" %}
+
+              <a href="/approve_staff"> Approve </a>
 
               {% endif %}
             </td>
@@ -99,14 +106,18 @@
           {% endfor %}
         </table>
 
+        {% else %}
+
+        <p>No staff members found.</p>
+
+        {% endif %}
+
         <br />
 
         <a href="/admin_dashboard" class="btn"> Back to Dashboard </a>
       </div>
     </div>
 
-    <footer>
-      <p>© 2026 Saarthi | Trekking Management System</p>
-    </footer>
+    <footer>© 2026 Saarthi | Trekking Management System</footer>
   </body>
 </html>
